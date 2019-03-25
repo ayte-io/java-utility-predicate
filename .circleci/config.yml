@@ -1,0 +1,120 @@
+version: '2.1'
+orbs:
+  mvnw: ayte/mvnw@0.1.1
+  jabba: ayte/jabba@0.1.2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:11.0
+    working_directory: /tmp/workspace
+    steps:
+      - checkout
+      - mvnw/circle:
+          command: -B clean clover:setup test package
+      - mvnw/circle:
+          command: -B clover:aggregate clover:clover
+          when: always
+      - jabba/use:
+          version: zulu@1.8
+          when: always
+      - mvnw/circle:
+          command: -B allure:report
+          when: always
+      - store_artifacts:
+          path: target/site/clover
+          destination: Report/Clover
+          when: always
+      - store_artifacts:
+          path: target/site/allure
+          destination: Report/Allure
+          when: always
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths: ['*', '**/*']
+          when: always
+
+  analyze:
+    docker:
+      - image: circleci/openjdk:11.0
+    working_directory: /tmp/workspace
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - mvnw/circle:
+          command: -B package sonar:sonar -Dmaven.test.skip=true "-Dsonar.branch.name=$CIRCLE_BRANCH"
+
+  stage:
+    docker:
+      - image: circleci/openjdk:11.0
+    working_directory: /tmp/workspace
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: sudo apt-get update
+      - run: |
+          echo 'Package: libassuan0' | sudo tee /etc/apt/preferences.d/libassuan0
+          echo 'Pin: release n=stretch-backports' | sudo tee -a /etc/apt/preferences.d/libassuan0
+          echo 'Pin-Priority: 1000' | sudo tee -a /etc/apt/preferences.d/libassuan0
+      - run: sudo apt-get install gpg gpg-agent
+      - run: echo "$GPG_SECRET_KEY" | base64 -d > /tmp/key
+      - run: echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --import /tmp/key
+      - run: rm /tmp/key
+      - run: sudo ln -s $(which gpg) /usr/local/bin/gpg2
+      - mvnw/circle:
+          command: -B package gpg:sign nexus-staging:deploy
+
+  release:
+    docker:
+      - image: circleci/openjdk:11.0
+    working_directory: /tmp/workspace
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: sudo apt-get update
+      - run: |
+          echo 'Package: libassuan0' | sudo tee /etc/apt/preferences.d/libassuan0
+          echo 'Pin: release n=stretch-backports' | sudo tee -a /etc/apt/preferences.d/libassuan0
+          echo 'Pin-Priority: 1000' | sudo tee -a /etc/apt/preferences.d/libassuan0
+      - run: sudo apt-get install gpg gpg-agent
+      - run: echo "$GPG_SECRET_KEY" | base64 -d > /tmp/key
+      - run: echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --import /tmp/key
+      - run: rm /tmp/key
+      - run: sudo ln -s $(which gpg) /usr/local/bin/gpg2
+      - mvnw/circle:
+          command: -B package gpg:sign nexus-staging:deploy nexus-staging:release
+
+workflows:
+  version: '2.1'
+  default:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+      - analyze:
+          requires:
+            - build
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              ignore: /.*/
+          context: sonarcloud.io
+      - stage:
+          requires:
+            - build
+          context: sonatype.org
+          filters:
+            branches:
+              only: /.*/
+            tags:
+              ignore: /.*/
+      - release:
+          requires:
+            - build
+          context: sonatype.org
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /\d+\.\d+\.\d+/

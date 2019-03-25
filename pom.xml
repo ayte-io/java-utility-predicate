@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ulysses</artifactId>
+        <groupId>io.ayte</groupId>
+        <version>0.2.4</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.ayte.utility.predicate</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.1.0</version>
+    <name>Ayte :: Utility :: Predicate</name>
+    <description>Set of unary, binary and ternary predicate implementations for ease of development and debugging</description>
+    <url>https://github.com/ayte-io/java-utility-predicate</url>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>src/api</module>
+        <module>src/kit</module>
+    </modules>
+
+    <properties>
+        <sonar.clover.reportPath>${project.build.directory}/site/clover/clover.xml</sonar.clover.reportPath>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Automatic-Module-Name>${packaging.automatic-module-name}</Automatic-Module-Name>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
