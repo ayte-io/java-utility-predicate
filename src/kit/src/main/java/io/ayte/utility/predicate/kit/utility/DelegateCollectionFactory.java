@@ -14,67 +14,73 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public class DelegateCollectionFactory<T> {
+public class DelegateCollectionFactory<T, V> {
     private final Map<Predicate<T>, Function<T, Iterable<T>>> unwrappers = new HashMap<>();
     private final Map<Predicate<T>, T> breakers = new HashMap<>();
     private final Set<Predicate<T>> validators = new HashSet<>();
     private final Set<Predicate<T>> filters = new HashSet<>();
     private T fallback;
-    private BiFunction<List<T>, Map<Predicate<T>, Integer>, T> collector;
+    private BiFunction<List<T>, Map<Predicate<T>, Integer>, V> collector;
+    private Function<T, V> wrapper;
 
-    public DelegateCollectionFactory<T> withUnwrapper(Predicate<T> predicate, Function<T, Iterable<T>> unwrapper) {
+    public DelegateCollectionFactory<T, V> withUnwrapper(Predicate<T> predicate, Function<T, Iterable<T>> unwrapper) {
         unwrappers.put(predicate, unwrapper);
         return this;
     }
 
-    public DelegateCollectionFactory<T> withBreaker(Predicate<T> predicate, T value) {
+    public DelegateCollectionFactory<T, V> withBreaker(Predicate<T> predicate, T value) {
         breakers.put(predicate, value);
         return this;
     }
 
-    public DelegateCollectionFactory<T> withValidator(Predicate<T> predicate) {
+    public DelegateCollectionFactory<T, V> withValidator(Predicate<T> predicate) {
         validators.add(predicate);
         return this;
     }
 
-    public DelegateCollectionFactory<T> withCollector(BiFunction<List<T>, Map<Predicate<T>, Integer>, T> collector) {
+    public DelegateCollectionFactory<T, V> withCollector(BiFunction<List<T>, Map<Predicate<T>, Integer>, V> collector) {
         this.collector = collector;
         return this;
     }
 
-    public DelegateCollectionFactory<T> withSimpleCollector(Function<List<T>, T> collector) {
+    public DelegateCollectionFactory<T, V> withSimpleCollector(Function<List<T>, V> collector) {
         this.collector = (elements, any) -> collector.apply(elements);
         return this;
     }
 
-    public DelegateCollectionFactory<T> withFallback(T fallback) {
+    public DelegateCollectionFactory<T, V> withFallback(T fallback) {
         this.fallback = fallback;
         return this;
     }
 
-    public DelegateCollectionFactory<T> withFilter(Predicate<T> filter) {
+    public DelegateCollectionFactory<T, V> withFilter(Predicate<T> filter) {
         this.filters.add(filter);
         return this;
     }
 
-    public T build(Iterable<T> items) {
+    public DelegateCollectionFactory<T, V> withWrapper(Function<T, V> wrapper) {
+        this.wrapper = wrapper;
+        return this;
+    }
+
+    public V build(Iterable<T> items) {
         val elements = unwrap(items);
         for (val element : elements) {
             for (val shortcut : breakers.entrySet()) {
                 if (shortcut.getKey().test(element)) {
-                    return shortcut.getValue();
+                    return wrapper.apply(shortcut.getValue());
                 }
             }
         }
         return collect(elements);
     }
 
-    private T collect(List<T> items) {
+    private V collect(List<T> items) {
         switch (items.size()) {
             case 0:
-                return fallback;
+                return wrapper.apply(fallback);
             case 1:
-                return items.get(0);
+                return wrapper.apply(items.get(0));
             default:
                 return collector.apply(items, validate(items));
         }

@@ -1,6 +1,6 @@
 package io.ayte.utility.predicate.kit.unary.iterable;
 
-import io.ayte.utility.predicate.kit.binary.ConstantFalse;
+import io.ayte.utility.predicate.kit.binary.standard.ConstantFalse;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 

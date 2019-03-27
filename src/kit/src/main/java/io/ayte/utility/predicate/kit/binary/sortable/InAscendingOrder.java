@@ -11,12 +11,12 @@ import java.util.Comparator;
 
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class InAscendingOrder<T> implements AugmentedBinaryPredicate<T, T>, BinaryPredicate<T, T> {
+public class InAscendingOrder<T> implements AugmentedBinaryPredicate<T, T> {
     private final Comparator<T> comparator;
 
     @Override
     public boolean test(T alpha, T beta) {
-        return comparator.compare(alpha, beta) < 0 ;
+        return comparator.compare(alpha, beta) <= 0;
     }
 
     public static <T> BinaryPredicate<T, T> create(@NonNull Comparator<T> comparator) {

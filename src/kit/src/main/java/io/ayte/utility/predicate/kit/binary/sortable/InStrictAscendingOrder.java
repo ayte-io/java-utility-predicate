@@ -11,19 +11,19 @@ import java.util.Comparator;
 
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class InNonAscendingOrder<T> implements AugmentedBinaryPredicate<T, T> {
+public class InStrictAscendingOrder<T> implements AugmentedBinaryPredicate<T, T>, BinaryPredicate<T, T> {
     private final Comparator<T> comparator;
 
     @Override
     public boolean test(T alpha, T beta) {
-        return comparator.compare(alpha, beta) >= 0;
+        return comparator.compare(alpha, beta) < 0 ;
     }
 
     public static <T> BinaryPredicate<T, T> create(@NonNull Comparator<T> comparator) {
-        return new InNonAscendingOrder<>(comparator);
+        return new InStrictAscendingOrder<>(comparator);
     }
 
     public static <T extends Comparable<T>> BinaryPredicate<T, T> create() {
-        return InNonAscendingOrder.<T>create(Comparator.naturalOrder());
+        return InStrictAscendingOrder.<T>create(Comparator.naturalOrder());
     }
 }

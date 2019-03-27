@@ -1,8 +1,8 @@
 package io.ayte.utility.predicate.kit;
 
 import io.ayte.utility.predicate.TernaryPredicate;
-import io.ayte.utility.predicate.kit.ternary.ConstantFalse;
-import io.ayte.utility.predicate.kit.ternary.ConstantTrue;
+import io.ayte.utility.predicate.kit.ternary.standard.ConstantFalse;
+import io.ayte.utility.predicate.kit.ternary.standard.ConstantTrue;
 import io.ayte.utility.predicate.kit.ternary.delegate.AllOf;
 import io.ayte.utility.predicate.kit.ternary.delegate.And;
 import io.ayte.utility.predicate.kit.ternary.delegate.AnyOf;

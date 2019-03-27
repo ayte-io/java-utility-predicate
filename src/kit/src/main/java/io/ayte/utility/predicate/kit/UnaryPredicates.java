@@ -1,7 +1,6 @@
 package io.ayte.utility.predicate.kit;
 
 import io.ayte.utility.predicate.UnaryPredicate;
-import io.ayte.utility.predicate.kit.binary.AugmentedBinaryPredicate;
 import io.ayte.utility.predicate.kit.unary.delegate.AllOf;
 import io.ayte.utility.predicate.kit.unary.delegate.And;
 import io.ayte.utility.predicate.kit.unary.delegate.AnyOf;
@@ -36,6 +35,7 @@ import lombok.NonNull;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -54,31 +54,31 @@ public class UnaryPredicates {
         return value ? constantTrue() : constantFalse();
     }
 
-    public static <T> UnaryPredicate<T> not(Predicate<T> predicate) {
+    public static <T> UnaryPredicate<T> not(@NonNull Predicate<T> predicate) {
         return Not.create(predicate);
     }
 
-    public static <T> UnaryPredicate<T> and(Predicate<? super T> first, Predicate<? super T> second) {
+    public static <T> UnaryPredicate<T> and(@NonNull Predicate<? super T> first, @NonNull Predicate<? super T> second) {
         return And.create(first, second);
     }
 
-    public static <T> UnaryPredicate<T> or(Predicate<? super T> first, Predicate<? super T> second) {
+    public static <T> UnaryPredicate<T> or(@NonNull Predicate<? super T> first, @NonNull Predicate<? super T> second) {
         return Or.create(first, second);
     }
 
-    public static <T> UnaryPredicate<T> xor(Predicate<? super T> first, Predicate<? super T> second) {
+    public static <T> UnaryPredicate<T> xor(@NonNull Predicate<? super T> first, @NonNull Predicate<? super T> second) {
         return Xor.create(first, second);
     }
 
-    public static <T> UnaryPredicate<T> all(Iterable<Predicate<? super T>> predicates) {
+    public static <T> UnaryPredicate<T> all(@NonNull Iterable<Predicate<? super T>> predicates) {
         return AllOf.create(predicates);
     }
 
-    public static <T> UnaryPredicate<T> any(Iterable<Predicate<? super T>> predicates) {
+    public static <T> UnaryPredicate<T> any(@NonNull Iterable<Predicate<? super T>> predicates) {
         return AnyOf.create(predicates);
     }
 
-    public static <T> UnaryPredicate<T> none(Iterable<Predicate<? super T>> predicates) {
+    public static <T> UnaryPredicate<T> none(@NonNull Iterable<Predicate<? super T>> predicates) {
         return NoneOf.create(predicates);
     }
 
@@ -86,7 +86,7 @@ public class UnaryPredicates {
         return EqualTo.create(reference);
     }
 
-    public static UnaryPredicate<String> equalToInAnyCase(String reference) {
+    public static UnaryPredicate<String> equalToInAnyCase(@NonNull String reference) {
         return EqualToInAnyCase.create(reference);
     }
 
@@ -98,23 +98,23 @@ public class UnaryPredicates {
         return NotEqualTo.create(reference);
     }
 
-    public static UnaryPredicate<String> notEqualToInAnyCase(String reference) {
+    public static UnaryPredicate<String> notEqualToInAnyCase(@NonNull String reference) {
         return NotEqualToInAnyCase.create(reference);
     }
 
-    public static UnaryPredicate<String> neqAnyCase(String reference) {
+    public static UnaryPredicate<String> neqAnyCase(@NonNull String reference) {
         return notEqualToInAnyCase(reference);
     }
 
-    public static <T> UnaryPredicate<T> elementOf(Collection<? super T> pool) {
+    public static <T> UnaryPredicate<T> elementOf(@NonNull Collection<? super T> pool) {
         return ElementOf.create(pool);
     }
 
-    public static <T> UnaryPredicate<T> keyOf(Map<? super T, ?> pool) {
+    public static <T> UnaryPredicate<T> keyOf(@NonNull Map<? super T, ?> pool) {
         return KeyOf.create(pool);
     }
 
-    public static <T> UnaryPredicate<T> valueOf(Map<?, ? super T> pool) {
+    public static <T> UnaryPredicate<T> valueOf(@NonNull Map<?, ? super T> pool) {
         return ValueOf.create(pool);
     }
 
@@ -155,7 +155,7 @@ public class UnaryPredicates {
             T upper,
             boolean lowerInclusive,
             boolean upperInclusive,
-            Comparator<T> comparator
+            @NonNull Comparator<T> comparator
     ) {
         return Within.create(lower, lowerInclusive, upper, upperInclusive, comparator);
     }
@@ -169,7 +169,7 @@ public class UnaryPredicates {
         return Within.create(lower, lowerInclusive, upper, upperInclusive);
     }
 
-    public static <T> UnaryPredicate<T> withinInclusive(T lower, T upper, Comparator<T> comparator) {
+    public static <T> UnaryPredicate<T> withinInclusive(T lower, T upper, @NonNull Comparator<T> comparator) {
         return Within.create(lower, false, upper, true, comparator);
     }
 
@@ -177,7 +177,7 @@ public class UnaryPredicates {
         return Within.create(lower, false, upper, false);
     }
 
-    public static <T> UnaryPredicate<T> withinExclusive(T lower, T upper, Comparator<T> comparator) {
+    public static <T> UnaryPredicate<T> withinExclusive(T lower, T upper, @NonNull Comparator<T> comparator) {
         return Within.create(lower, true, upper, true, comparator);
     }
 
@@ -185,7 +185,7 @@ public class UnaryPredicates {
         return Within.create(lower, true, upper, true);
     }
 
-    public static <T> UnaryPredicate<T> withinLowerExclusive(T lower, T upper, Comparator<T> comparator) {
+    public static <T> UnaryPredicate<T> withinLowerExclusive(T lower, T upper, @NonNull Comparator<T> comparator) {
         return Within.create(lower, true, upper, false, comparator);
     }
 
@@ -193,7 +193,7 @@ public class UnaryPredicates {
         return Within.create(lower, true, upper, false);
     }
 
-    public static <T> UnaryPredicate<T> withinLowerInclusive(T lower, T upper, Comparator<T> comparator) {
+    public static <T> UnaryPredicate<T> withinLowerInclusive(T lower, T upper, @NonNull Comparator<T> comparator) {
         return Within.create(lower, true, upper, false, comparator);
     }
 
@@ -201,7 +201,7 @@ public class UnaryPredicates {
         return Within.create(lower, false, upper, true);
     }
 
-    public static <T> UnaryPredicate<T> withinUpperExclusive(T lower, T upper, Comparator<T> comparator) {
+    public static <T> UnaryPredicate<T> withinUpperExclusive(T lower, T upper, @NonNull Comparator<T> comparator) {
         return Within.create(lower, false, upper, true, comparator);
     }
 
@@ -209,7 +209,7 @@ public class UnaryPredicates {
         return Within.create(lower, false, upper, true);
     }
 
-    public static <T> UnaryPredicate<T> withinUpperInclusive(T lower, T upper, Comparator<T> comparator) {
+    public static <T> UnaryPredicate<T> withinUpperInclusive(T lower, T upper, @NonNull Comparator<T> comparator) {
         return Within.create(lower, true, upper, false, comparator);
     }
 
@@ -217,11 +217,11 @@ public class UnaryPredicates {
         return Within.create(lower, true, upper, false);
     }
 
-    public static <T> UnaryPredicate<Iterable<T>> comparing(AugmentedBinaryPredicate<? super T, ? super T> predicate) {
+    public static <T> UnaryPredicate<Iterable<T>> comparing(@NonNull BiPredicate<? super T, ? super T> predicate) {
         return Comparing.create(predicate);
     }
 
-    public static <T> UnaryPredicate<Iterable<T>> increases(Comparator<? super T> comparator) {
+    public static <T> UnaryPredicate<Iterable<T>> increases(@NonNull Comparator<? super T> comparator) {
         return Increases.create(comparator);
     }
 
@@ -229,7 +229,7 @@ public class UnaryPredicates {
         return Increases.create();
     }
 
-    public static <T> UnaryPredicate<Iterable<T>> strictlyIncreases(Comparator<? super T> comparator) {
+    public static <T> UnaryPredicate<Iterable<T>> strictlyIncreases(@NonNull Comparator<? super T> comparator) {
         return StrictlyIncreases.create(comparator);
     }
 
@@ -237,7 +237,7 @@ public class UnaryPredicates {
         return StrictlyIncreases.create();
     }
 
-    public static <T> UnaryPredicate<Iterable<T>> decreases(Comparator<? super T> comparator) {
+    public static <T> UnaryPredicate<Iterable<T>> decreases(@NonNull Comparator<? super T> comparator) {
         return Decreases.create(comparator);
     }
 
@@ -245,7 +245,7 @@ public class UnaryPredicates {
         return Decreases.create();
     }
 
-    public static <T> UnaryPredicate<Iterable<T>> strictlyDecreases(Comparator<? super T> comparator) {
+    public static <T> UnaryPredicate<Iterable<T>> strictlyDecreases(@NonNull Comparator<? super T> comparator) {
         return StrictlyDecreases.create(comparator);
     }
 
@@ -253,11 +253,15 @@ public class UnaryPredicates {
         return StrictlyDecreases.create();
     }
 
-    public static <T, S> UnaryPredicate<T> mapping(Function<T, S> mapper, Predicate<S> predicate) {
+    public static <T, S> UnaryPredicate<T> derivative(@NonNull Function<T, S> mapper, @NonNull Predicate<S> predicate) {
         return Derivative.create(mapper, predicate);
     }
 
-    public static <T, S> UnaryPredicate<T> extracting(Function<T, S> extractor, Predicate<S> predicate) {
-        return mapping(extractor, predicate);
+    public static <T, S> UnaryPredicate<T> mapping(@NonNull Function<T, S> mapper, @NonNull Predicate<S> predicate) {
+        return derivative(mapper, predicate);
+    }
+
+    public static <T, S> UnaryPredicate<T> extracting(@NonNull Function<T, S> extractor, @NonNull Predicate<S> predicate) {
+        return derivative(extractor, predicate);
     }
 }

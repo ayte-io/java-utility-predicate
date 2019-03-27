@@ -16,7 +16,7 @@ public class InDescendingOrder<T> implements AugmentedBinaryPredicate<T, T> {
 
     @Override
     public boolean test(T alpha, T beta) {
-        return comparator.compare(alpha, beta) > 0 ;
+        return comparator.compare(alpha, beta) >= 0;
     }
 
     public static <T> BinaryPredicate<T, T> create(@NonNull Comparator<T> comparator) {

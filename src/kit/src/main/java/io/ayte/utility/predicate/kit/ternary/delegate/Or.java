@@ -5,7 +5,9 @@ import io.ayte.utility.predicate.kit.ternary.AugmentedTernaryPredicate;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
+@ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Or<T1, T2, T3> implements AugmentedTernaryPredicate<T1, T2, T3> {
     private final TernaryPredicate<? super T1, ? super T2, ? super T3> first;

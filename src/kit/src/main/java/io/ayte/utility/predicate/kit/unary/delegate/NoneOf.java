@@ -36,15 +36,16 @@ public class NoneOf<T> implements AugmentedUnaryPredicate<T> {
 
     @SuppressWarnings({"unchecked", "Duplicates"})
     public static <T> UnaryPredicate<T> create(@NonNull Iterable<Predicate<? super T>> predicates) {
-        val factory = new DelegateCollectionFactory<Predicate<T>>();
-        factory.withSimpleCollector(NoneOf::new);
-        factory.withUnwrapper(
-                predicate -> predicate instanceof NoneOf,
-                predicate -> ((NoneOf) predicate).delegates
-        );
-        factory.withFilter(ConstantFalse::instanceOf);
-        factory.withBreaker(ConstantTrue::instanceOf, ConstantFalse.create());
-        factory.withFallback(ConstantTrue.create());
-        return Wrapper.create(factory.build((Iterable) predicates));
+        return new DelegateCollectionFactory<Predicate<T>, UnaryPredicate<T>>()
+                .withSimpleCollector(NoneOf::new)
+                .withUnwrapper(
+                        predicate -> predicate instanceof NoneOf,
+                        predicate -> ((NoneOf<T>) predicate).delegates
+                )
+                .withFilter(ConstantFalse::instanceOf)
+                .withBreaker(ConstantTrue::instanceOf, ConstantFalse.create())
+                .withFallback(ConstantTrue.create())
+                .withWrapper(Wrapper::create)
+                .build((Iterable<Predicate<T>>) (Iterable) predicates);
     }
 }

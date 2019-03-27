@@ -15,7 +15,7 @@ public interface AugmentedBinaryPredicate<T1, T2> extends BinaryPredicate<T1, T2
     }
 
     @Override
-    default BiPredicate<T1, T2> negate() {
+    default BinaryPredicate<T1, T2> negate() {
         return Not.create(this);
     }
 

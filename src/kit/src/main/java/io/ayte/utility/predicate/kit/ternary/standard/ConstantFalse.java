@@ -1,6 +1,7 @@
-package io.ayte.utility.predicate.kit.ternary;
+package io.ayte.utility.predicate.kit.ternary.standard;
 
 import io.ayte.utility.predicate.TernaryPredicate;
+import io.ayte.utility.predicate.kit.ternary.AugmentedTernaryPredicate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

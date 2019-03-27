@@ -23,10 +23,6 @@
         <module>src/kit</module>
     </modules>
 
-    <properties>
-        <sonar.clover.reportPath>${project.build.directory}/site/clover/clover.xml</sonar.clover.reportPath>
-    </properties>
-
     <build>
         <plugins>
             <plugin>

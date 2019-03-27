@@ -36,15 +36,16 @@ public class AnyOf<T> implements AugmentedUnaryPredicate<T> {
 
     @SuppressWarnings("unchecked")
     public static <T> UnaryPredicate<T> create(@NonNull Iterable<Predicate<? super T>> predicates) {
-        val factory = new DelegateCollectionFactory<Predicate<T>>();
-        factory.withSimpleCollector(AnyOf::new);
-        factory.withBreaker(ConstantTrue::instanceOf, ConstantTrue.create());
-        factory.withUnwrapper(
-                predicate -> predicate instanceof AnyOf,
-                predicate -> ((AnyOf) predicate).getDelegates()
-        );
-        factory.withFilter(ConstantFalse::instanceOf);
-        factory.withFallback(ConstantFalse.create());
-        return Wrapper.create(factory.build((Iterable) predicates));
+        return new DelegateCollectionFactory<Predicate<T>, UnaryPredicate<T>>()
+                .withSimpleCollector(AnyOf::new)
+                .withUnwrapper(
+                        predicate -> predicate instanceof AnyOf,
+                        predicate -> ((AnyOf<T>) predicate).getDelegates()
+                )
+                .withFilter(ConstantFalse::instanceOf)
+                .withBreaker(ConstantTrue::instanceOf, ConstantTrue.create())
+                .withFallback(ConstantFalse.create())
+                .withWrapper(Wrapper::create)
+                .build((Iterable<Predicate<T>>) (Iterable) predicates);
     }
 }

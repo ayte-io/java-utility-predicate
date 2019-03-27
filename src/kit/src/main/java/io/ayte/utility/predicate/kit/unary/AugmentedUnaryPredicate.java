@@ -10,17 +10,17 @@ import java.util.function.Predicate;
 
 public interface AugmentedUnaryPredicate<T> extends UnaryPredicate<T> {
     @Override
-    default Predicate<T> and(Predicate<? super T> other) {
+    default UnaryPredicate<T> and(Predicate<? super T> other) {
         return And.create(this, other);
     }
 
     @Override
-    default Predicate<T> negate() {
+    default UnaryPredicate<T> negate() {
         return Not.create(this);
     }
 
     @Override
-    default Predicate<T> or(Predicate<? super T> other) {
+    default UnaryPredicate<T> or(Predicate<? super T> other) {
         return Or.create(this, other);
     }
 

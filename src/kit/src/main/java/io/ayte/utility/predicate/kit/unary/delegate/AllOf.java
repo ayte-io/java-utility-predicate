@@ -41,15 +41,16 @@ public class AllOf<T> implements AugmentedUnaryPredicate<T> {
 
     @SuppressWarnings({"unchecked", "Duplicates"})
     public static <T> UnaryPredicate<T> create(@NonNull Iterable<Predicate<? super T>> predicates) {
-        val factory = new DelegateCollectionFactory<Predicate<T>>();
-        factory.withSimpleCollector(AllOf::new);
-        factory.withUnwrapper(
-                predicate -> predicate instanceof AllOf,
-                predicate -> ((AllOf) predicate).getDelegates()
-        );
-        factory.withFilter(ConstantTrue::instanceOf);
-        factory.withBreaker(ConstantFalse::instanceOf, ConstantFalse.create());
-        factory.withFallback(ConstantTrue.create());
-        return Wrapper.create(factory.build((Iterable) predicates));
+        return new DelegateCollectionFactory<Predicate<T>, UnaryPredicate<T>>()
+                .withSimpleCollector(AllOf::new)
+                .withUnwrapper(
+                        predicate -> predicate instanceof AllOf,
+                        predicate -> ((AllOf<T>) predicate).getDelegates()
+                )
+                .withFilter(ConstantTrue::instanceOf)
+                .withBreaker(ConstantFalse::instanceOf, ConstantFalse.create())
+                .withFallback(ConstantTrue.create())
+                .withWrapper(Wrapper::create)
+                .build((Iterable<Predicate<T>>) (Iterable) predicates);
     }
 }

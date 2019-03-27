@@ -6,25 +6,25 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
-class InAscendingOrderTest {
+class InDescendingOrderTest {
     @Test
     public void rejectsNullComparator() {
-        assertThrows(NullPointerException.class, () -> InAscendingOrder.create(null));
+        assertThrows(NullPointerException.class, () -> InDescendingOrder.create(null));
     }
 
     public static Object[][] dataProvider() {
         return new Object[][] {
                 {1, 1, true},
-                {1, 2, true},
-                {2, 1, false}
+                {1, 2, false},
+                {2, 1, true}
         };
     }
 
     @ParameterizedTest
     @MethodSource("dataProvider")
     public void satisfiesContract(int left, int right, boolean expectation) {
-        assertThat(InAscendingOrder.<Integer>create().test(left, right), equalTo(expectation));
+        assertThat(InDescendingOrder.<Integer>create().test(left, right), equalTo(expectation));
     }
 }

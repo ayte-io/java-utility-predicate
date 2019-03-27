@@ -25,6 +25,10 @@ public class ConstantTrue<T> implements AugmentedUnaryPredicate<T> {
         return predicate instanceof ConstantTrue;
     }
 
+    public static <T> boolean notInstanceOf(Predicate<T> predicate) {
+        return !instanceOf(predicate);
+    }
+
     @Override
     public String toString() {
         return "ConstantTrue";

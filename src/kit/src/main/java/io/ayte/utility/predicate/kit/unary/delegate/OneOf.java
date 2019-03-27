@@ -1,8 +1,10 @@
 package io.ayte.utility.predicate.kit.unary.delegate;
 
+import io.ayte.utility.predicate.UnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.AugmentedUnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantTrue;
+import io.ayte.utility.predicate.kit.utility.DelegateCollectionFactory;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +12,6 @@ import lombok.ToString;
 import lombok.val;
 
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -41,16 +42,18 @@ public class OneOf<T> implements AugmentedUnaryPredicate<T> {
 
     @SuppressWarnings({"Duplicates", "unchecked"})
     public static <T> Predicate<T> create(@NonNull Iterable<Predicate<? super T>> predicates) {
-        val converted = new LinkedList<Predicate<T>>();
-        for (val predicate : predicates) {
-            if (predicate instanceof ConstantFalse) {
-                continue;
-            }
-            converted.add((Predicate<T>) predicate);
-        }
-        if (converted.isEmpty() || converted.stream().filter(ConstantTrue::instanceOf).count() >= 2) {
-            return ConstantFalse.create();
-        }
-        return new OneOf<>(converted);
+        Predicate<Predicate<T>> validator = ConstantTrue::notInstanceOf;
+        return new DelegateCollectionFactory<Predicate<T>, UnaryPredicate<T>>()
+                .withFilter(ConstantFalse::instanceOf)
+                .withFallback(ConstantFalse.create())
+                .withWrapper(Wrapper::create)
+                .withValidator(validator)
+                .withCollector((results, violations) -> {
+                    if (violations.getOrDefault(validator, 0) < 2) {
+                        return new OneOf<>(results);
+                    }
+                    return ConstantFalse.create();
+                })
+                .build((Iterable<Predicate<T>>) (Iterable) predicates);
     }
 }

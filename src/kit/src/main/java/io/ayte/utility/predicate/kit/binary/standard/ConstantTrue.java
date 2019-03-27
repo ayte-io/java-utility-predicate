@@ -1,5 +1,6 @@
-package io.ayte.utility.predicate.kit.binary;
+package io.ayte.utility.predicate.kit.binary.standard;
 
+import io.ayte.utility.predicate.kit.binary.AugmentedBinaryPredicate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,11 @@ public class ConstantTrue<T1, T2> implements AugmentedBinaryPredicate<T1, T2> {
     @Override
     public boolean test(T1 alpha, T2 beta) {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "ConstantTrue";
     }
 
     @SuppressWarnings("unchecked")

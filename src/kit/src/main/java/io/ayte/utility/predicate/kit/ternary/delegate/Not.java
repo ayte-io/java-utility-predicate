@@ -2,13 +2,15 @@ package io.ayte.utility.predicate.kit.ternary.delegate;
 
 import io.ayte.utility.predicate.TernaryPredicate;
 import io.ayte.utility.predicate.kit.ternary.AugmentedTernaryPredicate;
-import io.ayte.utility.predicate.kit.ternary.ConstantFalse;
-import io.ayte.utility.predicate.kit.ternary.ConstantTrue;
+import io.ayte.utility.predicate.kit.ternary.standard.ConstantFalse;
+import io.ayte.utility.predicate.kit.ternary.standard.ConstantTrue;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
+@ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Not<T1, T2, T3> implements AugmentedTernaryPredicate<T1, T2, T3> {
     @Getter(AccessLevel.PRIVATE)
