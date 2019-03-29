@@ -38,21 +38,21 @@ This library provides set of named classes to address both of those
 issues:
 
 ```
-.filter(UnaryPredicates.allMatch(UnaryPredicates.greaterThan(3)))
+.filter(Predicates.allMatch(Predicates.gte(3)))
 ```
 
 ```
-.filter(UnaryPredicates.xor(UnaryPredicates.greaterThan(3), UnaryPredicates.keyOf(map)))
+.filter(Predicates.xor(Predicates.gte(3), Predicates.keyOf(map)))
 ```
 
 Or, with static imports:
 
 ```
-.filter(allMatch(greaterThan(3)))
+.filter(allMatch(gte(3)))
 ```
 
 ```
-.filter(xor(greaterThan(3), keyOf(map)))
+.filter(xor(gte(3), keyOf(map)))
 ```
 
 All those operations return named classes (`AllMatch`, `GreaterThan`,
@@ -69,7 +69,7 @@ of course we try to keep naming concise.
 `Predicate` and `BiPredicate`, adding `.xor()` method, and third one
 doesn't inherit anything but follows same conventions.
 
-`kit` jar exposes `UnaryPredicates`, `BinaryPredicates` and 
+`kit` jar exposes `Predicates`, `BinaryPredicates` and 
 `TernaryPredicates` static factory classes, which should be sufficient
 to use library at full power. 
 
