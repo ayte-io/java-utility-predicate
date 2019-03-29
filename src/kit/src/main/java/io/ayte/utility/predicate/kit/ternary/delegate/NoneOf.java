@@ -6,6 +6,7 @@ import io.ayte.utility.predicate.kit.ternary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.ternary.standard.ConstantTrue;
 import io.ayte.utility.predicate.kit.utility.DelegateCollectionFactory;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -13,8 +14,8 @@ import lombok.val;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 
+@EqualsAndHashCode
 @ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class NoneOf<T1, T2, T3> implements AugmentedTernaryPredicate<T1, T2, T3> {
@@ -44,8 +45,10 @@ public class NoneOf<T1, T2, T3> implements AugmentedTernaryPredicate<T1, T2, T3>
                         predicate -> ((NoneOf<T1, T2, T3>) predicate).getDelegates()
                 )
                 .withSimpleCollector(NoneOf::new)
+                .withFilter(ConstantFalse::instanceOf)
                 .withBreaker(ConstantTrue::instanceOf, ConstantFalse.create())
-                .withWrapper(Function.identity())
+                .withWrapper(Not::create)
+                .withFallback(ConstantTrue.create())
                 .build((Iterable<TernaryPredicate<T1, T2, T3>>) (Iterable) predicates);
     }
 }

@@ -6,6 +6,7 @@ import io.ayte.utility.predicate.kit.unary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantTrue;
 import io.ayte.utility.predicate.kit.utility.DelegateCollectionFactory;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -15,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
+@EqualsAndHashCode
 @ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class NoneOf<T> implements AugmentedUnaryPredicate<T> {
@@ -45,7 +47,7 @@ public class NoneOf<T> implements AugmentedUnaryPredicate<T> {
                 .withFilter(ConstantFalse::instanceOf)
                 .withBreaker(ConstantTrue::instanceOf, ConstantFalse.create())
                 .withFallback(ConstantTrue.create())
-                .withWrapper(Wrapper::create)
+                .withWrapper(Not::create)
                 .build((Iterable<Predicate<T>>) (Iterable) predicates);
     }
 }

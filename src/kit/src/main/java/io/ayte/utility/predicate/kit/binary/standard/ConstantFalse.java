@@ -2,10 +2,12 @@ package io.ayte.utility.predicate.kit.binary.standard;
 
 import io.ayte.utility.predicate.kit.binary.AugmentedBinaryPredicate;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.function.BiPredicate;
 
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConstantFalse<T1, T2> implements AugmentedBinaryPredicate<T1, T2> {
     private static final ConstantFalse INSTANCE = new ConstantFalse<>();
@@ -27,9 +29,5 @@ public class ConstantFalse<T1, T2> implements AugmentedBinaryPredicate<T1, T2> {
 
     public static <T1, T2> boolean instanceOf(BiPredicate<T1, T2> predicate) {
         return predicate instanceof ConstantFalse;
-    }
-
-    public static <T1, T2> boolean notInstanceOf(BiPredicate<T1, T2> predicate) {
-        return !instanceOf(predicate);
     }
 }

@@ -2,12 +2,14 @@ package io.ayte.utility.predicate.kit.unary.value;
 
 import io.ayte.utility.predicate.kit.unary.AugmentedUnaryPredicate;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.Comparator;
 
+@EqualsAndHashCode
 @ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class GreaterThan<T> implements AugmentedUnaryPredicate<T> {

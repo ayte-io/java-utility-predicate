@@ -2,6 +2,7 @@ package io.ayte.utility.predicate.kit.unary.iterable;
 
 import io.ayte.utility.predicate.UnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.AugmentedUnaryPredicate;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import lombok.val;
 
 import java.util.Comparator;
 
+@EqualsAndHashCode
 @ToString
 @RequiredArgsConstructor
 public class Increases<T> implements AugmentedUnaryPredicate<Iterable<T>> {

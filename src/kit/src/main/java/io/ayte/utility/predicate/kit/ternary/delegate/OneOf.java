@@ -6,14 +6,17 @@ import io.ayte.utility.predicate.kit.ternary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.ternary.standard.ConstantTrue;
 import io.ayte.utility.predicate.kit.utility.DelegateCollectionFactory;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.val;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
+@EqualsAndHashCode
 @ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class OneOf<T1, T2, T3> implements AugmentedTernaryPredicate<T1, T2, T3> {
@@ -53,6 +56,11 @@ public class OneOf<T1, T2, T3> implements AugmentedTernaryPredicate<T1, T2, T3> 
                     }
                     return ConstantFalse.create();
                 })
+                .withUnwrapper(
+                        predicate -> predicate instanceof OneOf,
+                        predicate -> ((OneOf<T1, T2, T3>) predicate).getDelegates()
+                )
+                .withWrapper(Function.identity())
                 .build((Iterable<TernaryPredicate<T1, T2, T3>>) (Iterable) predicates);
     }
 }

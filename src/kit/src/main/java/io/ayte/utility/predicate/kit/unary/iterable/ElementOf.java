@@ -3,12 +3,14 @@ package io.ayte.utility.predicate.kit.unary.iterable;
 import io.ayte.utility.predicate.UnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.AugmentedUnaryPredicate;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.Collection;
 
+@EqualsAndHashCode
 @ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ElementOf<E> implements AugmentedUnaryPredicate<E> {

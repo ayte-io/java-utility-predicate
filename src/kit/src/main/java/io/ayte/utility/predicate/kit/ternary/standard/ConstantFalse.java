@@ -14,6 +14,11 @@ public class ConstantFalse<T1, T2, T3> implements AugmentedTernaryPredicate<T1, 
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "ConstantFalse";
+    }
+
     @SuppressWarnings("unchecked")
     public static <T1, T2, T3> ConstantFalse<T1, T2, T3> create() {
         return INSTANCE;
@@ -21,9 +26,5 @@ public class ConstantFalse<T1, T2, T3> implements AugmentedTernaryPredicate<T1, 
 
     public static <T1, T2, T3> boolean instanceOf(TernaryPredicate<T1, T2, T3> predicate) {
         return predicate instanceof ConstantFalse;
-    }
-
-    public static <T1, T2, T3> boolean notInstanceOf(TernaryPredicate<T1, T2, T3> predicate) {
-        return !instanceOf(predicate);
     }
 }

@@ -16,6 +16,8 @@ import lombok.NonNull;
 
 import java.util.function.BiPredicate;
 
+// CLOVER:OFF
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BinaryPredicates {
     public static <T, U> BinaryPredicate<T, U> constant(boolean value) {

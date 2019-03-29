@@ -2,11 +2,15 @@ package io.ayte.utility.predicate.kit.binary.delegate;
 
 import io.ayte.utility.predicate.kit.binary.AugmentedBinaryPredicate;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.function.BiPredicate;
 
+@EqualsAndHashCode
+@ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class And<T1, T2> implements AugmentedBinaryPredicate<T1, T2> {
     private final BiPredicate<? super T1, ? super T2> first;

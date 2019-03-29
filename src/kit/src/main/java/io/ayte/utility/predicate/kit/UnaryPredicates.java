@@ -39,6 +39,8 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+// CLOVER:OFF
+
 @SuppressWarnings({"squid:S1452", "unused"})
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UnaryPredicates {

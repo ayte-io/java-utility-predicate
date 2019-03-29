@@ -3,12 +3,14 @@ package io.ayte.utility.predicate.kit.binary.sortable;
 import io.ayte.utility.predicate.BinaryPredicate;
 import io.ayte.utility.predicate.kit.binary.AugmentedBinaryPredicate;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.Comparator;
 
+@EqualsAndHashCode
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class InStrictAscendingOrder<T> implements AugmentedBinaryPredicate<T, T>, BinaryPredicate<T, T> {

@@ -4,12 +4,14 @@ import io.ayte.utility.predicate.UnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.AugmentedUnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantTrue;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.function.Predicate;
 
+@EqualsAndHashCode
 @ToString(includeFieldNames = false)
 @RequiredArgsConstructor
 public class And<T> implements AugmentedUnaryPredicate<T> {

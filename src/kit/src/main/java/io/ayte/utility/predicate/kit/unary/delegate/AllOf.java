@@ -6,6 +6,7 @@ import io.ayte.utility.predicate.kit.unary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantTrue;
 import io.ayte.utility.predicate.kit.utility.DelegateCollectionFactory;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -20,6 +21,7 @@ import java.util.function.Predicate;
  *
  * @param <T>
  */
+@EqualsAndHashCode
 @ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class AllOf<T> implements AugmentedUnaryPredicate<T> {

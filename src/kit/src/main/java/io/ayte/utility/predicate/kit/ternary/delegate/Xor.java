@@ -3,10 +3,12 @@ package io.ayte.utility.predicate.kit.ternary.delegate;
 import io.ayte.utility.predicate.TernaryPredicate;
 import io.ayte.utility.predicate.kit.ternary.AugmentedTernaryPredicate;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+@EqualsAndHashCode
 @ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Xor<T1, T2, T3> implements AugmentedTernaryPredicate<T1, T2, T3> {

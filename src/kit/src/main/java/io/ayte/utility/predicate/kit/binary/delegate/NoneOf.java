@@ -45,7 +45,7 @@ public class NoneOf<T1, T2> implements AugmentedBinaryPredicate<T1, T2> {
                 .withBreaker(ConstantTrue::instanceOf, ConstantFalse.create())
                 .withSimpleCollector(NoneOf::new)
                 .withFallback(ConstantTrue.create())
-                .withWrapper(Wrapper::create)
+                .withWrapper(Not::create)
                 .build((Iterable<BiPredicate<T1, T2>>) (Iterable) predicates);
     }
 }

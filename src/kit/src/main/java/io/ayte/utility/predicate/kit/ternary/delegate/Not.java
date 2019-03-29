@@ -5,11 +5,13 @@ import io.ayte.utility.predicate.kit.ternary.AugmentedTernaryPredicate;
 import io.ayte.utility.predicate.kit.ternary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.ternary.standard.ConstantTrue;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+@EqualsAndHashCode
 @ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Not<T1, T2, T3> implements AugmentedTernaryPredicate<T1, T2, T3> {

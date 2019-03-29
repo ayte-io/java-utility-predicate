@@ -2,7 +2,12 @@ package io.ayte.utility.predicate.kit.binary.standard;
 
 import io.ayte.utility.predicate.BinaryPredicate;
 import io.ayte.utility.predicate.kit.binary.AugmentedBinaryPredicate;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UsingSecond<T> implements AugmentedBinaryPredicate<T, Boolean> {
     private static final UsingSecond INSTANCE = new UsingSecond<>();
 

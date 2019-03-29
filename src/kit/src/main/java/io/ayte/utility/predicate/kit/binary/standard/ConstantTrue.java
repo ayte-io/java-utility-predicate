@@ -2,10 +2,12 @@ package io.ayte.utility.predicate.kit.binary.standard;
 
 import io.ayte.utility.predicate.kit.binary.AugmentedBinaryPredicate;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.function.BiPredicate;
 
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConstantTrue<T1, T2> implements AugmentedBinaryPredicate<T1, T2> {
     private static final ConstantTrue INSTANCE = new ConstantTrue<>();

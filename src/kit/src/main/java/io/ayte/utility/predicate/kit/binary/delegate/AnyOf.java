@@ -6,14 +6,18 @@ import io.ayte.utility.predicate.kit.binary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.binary.standard.ConstantTrue;
 import io.ayte.utility.predicate.kit.utility.DelegateCollectionFactory;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.val;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.function.BiPredicate;
 
+@EqualsAndHashCode
+@ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class AnyOf<T1, T2> implements AugmentedBinaryPredicate<T1, T2> {
     private final List<BiPredicate<T1, T2>> delegates;

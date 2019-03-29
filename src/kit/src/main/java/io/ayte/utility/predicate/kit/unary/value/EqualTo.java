@@ -2,11 +2,13 @@ package io.ayte.utility.predicate.kit.unary.value;
 
 import io.ayte.utility.predicate.kit.unary.AugmentedUnaryPredicate;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.Objects;
 
+@EqualsAndHashCode
 @ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class EqualTo<T> implements AugmentedUnaryPredicate<T> {

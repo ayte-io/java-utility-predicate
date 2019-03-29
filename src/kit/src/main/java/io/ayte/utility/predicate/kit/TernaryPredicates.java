@@ -15,6 +15,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+// CLOVER:OFF
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TernaryPredicates {
     public static <T1, T2, T3> TernaryPredicate<T1, T2, T3> constant(boolean value) {

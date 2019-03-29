@@ -3,10 +3,12 @@ package io.ayte.utility.predicate.kit.unary.standard;
 import io.ayte.utility.predicate.UnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.AugmentedUnaryPredicate;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.function.Predicate;
 
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConstantTrue<T> implements AugmentedUnaryPredicate<T> {
     private static final ConstantTrue INSTANCE = new ConstantTrue<>();

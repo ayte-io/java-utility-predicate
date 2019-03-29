@@ -13,7 +13,6 @@ import java.util.function.Predicate;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -69,6 +68,6 @@ class NoneOfTest {
     public void shortcutsSingleDelegate() {
         val delegate = Identity.create();
         val sut = NoneOf.create(Collections.singleton(delegate));
-        assertThat(sut, is(delegate));
+        assertThat(sut, equalTo(Not.create(delegate)));
     }
 }

@@ -16,10 +16,10 @@ import java.util.function.Predicate;
 
 public class DelegateCollectionFactory<T, V> {
     private final Map<Predicate<T>, Function<T, Iterable<T>>> unwrappers = new HashMap<>();
-    private final Map<Predicate<T>, T> breakers = new HashMap<>();
+    private final Map<Predicate<T>, V> breakers = new HashMap<>();
     private final Set<Predicate<T>> validators = new HashSet<>();
     private final Set<Predicate<T>> filters = new HashSet<>();
-    private T fallback;
+    private V fallback;
     private BiFunction<List<T>, Map<Predicate<T>, Integer>, V> collector;
     private Function<T, V> wrapper;
 
@@ -28,7 +28,7 @@ public class DelegateCollectionFactory<T, V> {
         return this;
     }
 
-    public DelegateCollectionFactory<T, V> withBreaker(Predicate<T> predicate, T value) {
+    public DelegateCollectionFactory<T, V> withBreaker(Predicate<T> predicate, V value) {
         breakers.put(predicate, value);
         return this;
     }
@@ -48,7 +48,7 @@ public class DelegateCollectionFactory<T, V> {
         return this;
     }
 
-    public DelegateCollectionFactory<T, V> withFallback(T fallback) {
+    public DelegateCollectionFactory<T, V> withFallback(V fallback) {
         this.fallback = fallback;
         return this;
     }
@@ -68,7 +68,7 @@ public class DelegateCollectionFactory<T, V> {
         for (val element : elements) {
             for (val shortcut : breakers.entrySet()) {
                 if (shortcut.getKey().test(element)) {
-                    return wrapper.apply(shortcut.getValue());
+                    return shortcut.getValue();
                 }
             }
         }
@@ -78,7 +78,7 @@ public class DelegateCollectionFactory<T, V> {
     private V collect(List<T> items) {
         switch (items.size()) {
             case 0:
-                return wrapper.apply(fallback);
+                return fallback;
             case 1:
                 return wrapper.apply(items.get(0));
             default:

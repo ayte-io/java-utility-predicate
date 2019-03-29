@@ -6,6 +6,7 @@ import io.ayte.utility.predicate.kit.ternary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.ternary.standard.ConstantTrue;
 import io.ayte.utility.predicate.kit.utility.DelegateCollectionFactory;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -15,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
+@EqualsAndHashCode
 @ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class AnyOf<T1, T2, T3> implements AugmentedTernaryPredicate<T1, T2, T3> {
