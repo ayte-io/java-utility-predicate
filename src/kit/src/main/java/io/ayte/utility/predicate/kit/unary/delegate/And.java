@@ -4,6 +4,7 @@ import io.ayte.utility.predicate.UnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.AugmentedUnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantTrue;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.function.Predicate;
 
 @EqualsAndHashCode
 @ToString(includeFieldNames = false)
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class And<T> implements AugmentedUnaryPredicate<T> {
     private final Predicate<? super T> first;
     private final Predicate<? super T> second;

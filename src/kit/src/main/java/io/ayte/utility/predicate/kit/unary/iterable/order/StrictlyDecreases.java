@@ -2,6 +2,7 @@ package io.ayte.utility.predicate.kit.unary.iterable.order;
 
 import io.ayte.utility.predicate.UnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.AugmentedUnaryPredicate;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.Comparator;
 
 @EqualsAndHashCode
 @ToString
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class StrictlyDecreases<T> implements AugmentedUnaryPredicate<Iterable<T>> {
     private final Comparator<? super T> comparator;
 
