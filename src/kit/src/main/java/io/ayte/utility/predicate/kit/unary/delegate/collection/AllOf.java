@@ -41,7 +41,7 @@ public class AllOf<T> implements AugmentedUnaryPredicate<T> {
     public static <T> UnaryPredicate<T> create(@NonNull Iterable<Predicate<? super T>> predicates) {
         return new DelegateCollectionFactory<Predicate<T>, UnaryPredicate<T>>()
                 .withSimpleCollector(AllOf::new)
-                .withUnwrapper(
+                .withFlattener(
                         predicate -> predicate instanceof AllOf,
                         predicate -> ((AllOf<T>) predicate).getDelegates()
                 )

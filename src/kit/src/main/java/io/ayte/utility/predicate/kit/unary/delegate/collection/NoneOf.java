@@ -41,7 +41,7 @@ public class NoneOf<T> implements AugmentedUnaryPredicate<T> {
     public static <T> UnaryPredicate<T> create(@NonNull Iterable<Predicate<? super T>> predicates) {
         return new DelegateCollectionFactory<Predicate<T>, UnaryPredicate<T>>()
                 .withSimpleCollector(NoneOf::new)
-                .withUnwrapper(
+                .withFlattener(
                         predicate -> predicate instanceof NoneOf,
                         predicate -> ((NoneOf<T>) predicate).delegates
                 )

@@ -43,7 +43,7 @@ public class AllOf<T1, T2> implements AugmentedBinaryPredicate<T1, T2> {
     ) {
         return new DelegateCollectionFactory<BiPredicate<T1, T2>, BinaryPredicate<T1, T2>>()
                 .withFilter(ConstantTrue::instanceOf)
-                .withUnwrapper(
+                .withFlattener(
                         predicate -> predicate instanceof AllOf,
                         predicate -> ((AllOf<T1, T2>) predicate).getDelegates()
                 )

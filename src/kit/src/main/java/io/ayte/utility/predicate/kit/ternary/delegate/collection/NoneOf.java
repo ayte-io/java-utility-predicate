@@ -41,7 +41,7 @@ public class NoneOf<T1, T2, T3> implements AugmentedTernaryPredicate<T1, T2, T3>
             @NonNull Iterable<TernaryPredicate<? super T1, ? super T2, ? super T3>> predicates
     ) {
         return new DelegateCollectionFactory<TernaryPredicate<T1, T2, T3>, TernaryPredicate<T1, T2, T3>>()
-                .withUnwrapper(
+                .withFlattener(
                         predicate -> predicate instanceof NoneOf,
                         predicate -> ((NoneOf<T1, T2, T3>) predicate).getDelegates()
                 )

@@ -38,8 +38,8 @@ public class NoneOf<T1, T2> implements AugmentedBinaryPredicate<T1, T2> {
             @NonNull Iterable<BiPredicate<? super T1, ? super T2>> predicates
     ) {
         return new DelegateCollectionFactory<BiPredicate<T1, T2>, BinaryPredicate<T1, T2>>()
-                .withUnwrapper(ConstantFalse::instanceOf, any -> Collections.emptyList())
-                .withUnwrapper(
+                .withFlattener(ConstantFalse::instanceOf, any -> Collections.emptyList())
+                .withFlattener(
                         predicate -> predicate instanceof NoneOf,
                         predicate -> ((NoneOf<T1, T2>) predicate).getDelegates()
                 )
