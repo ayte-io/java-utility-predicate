@@ -2,6 +2,7 @@ package io.ayte.utility.predicate.kit.unary.delegate;
 
 import io.ayte.utility.predicate.UnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.AugmentedUnaryPredicate;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,7 @@ import java.util.function.Predicate;
 
 @EqualsAndHashCode
 @ToString(includeFieldNames = false)
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Wrapper<T> implements AugmentedUnaryPredicate<T> {
     private final Predicate<T> delegate;
 
