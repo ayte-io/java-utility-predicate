@@ -41,7 +41,7 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace
       - mvnw/circle:
-          command: -B package sonar:sonar -Dmaven.test.skip=true "-Dsonar.branch.name=$CIRCLE_BRANCH"
+          command: -B jar sonar:sonar -Dmaven.test.skip=true "-Dsonar.branch.name=$CIRCLE_BRANCH" -e
 
   stage:
     docker:
@@ -92,11 +92,9 @@ workflows:
             tags:
               only: /.*/
       - analyze:
-          requires:
-            - build
           filters:
             branches:
-              only: /.*/
+              only: /release\/.*/
             tags:
               ignore: /.*/
           context: sonarcloud.io
@@ -106,7 +104,7 @@ workflows:
           context: sonatype.org
           filters:
             branches:
-              only: /.*/
+              only: /release\/.*/
             tags:
               ignore: /.*/
       - release:
