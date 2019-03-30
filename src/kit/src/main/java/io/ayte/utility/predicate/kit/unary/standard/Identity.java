@@ -10,7 +10,7 @@ public class Identity implements AugmentedUnaryPredicate<Boolean> {
 
     @Override
     public boolean test(Boolean subject) {
-        return subject;
+        return Boolean.TRUE.equals(subject);
     }
 
     public static UnaryPredicate<Boolean> create() {

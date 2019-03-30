@@ -2,7 +2,6 @@ package io.ayte.utility.predicate.kit.unary.delegate.collection;
 
 import io.ayte.utility.predicate.UnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.AugmentedUnaryPredicate;
-import io.ayte.utility.predicate.kit.unary.delegate.And;
 import io.ayte.utility.predicate.kit.unary.delegate.Wrapper;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantTrue;
@@ -18,11 +17,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
-/**
- * @see And for simple binary conjunction operations.
- *
- * @param <T>
- */
 @EqualsAndHashCode
 @ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)

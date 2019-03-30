@@ -1,6 +1,5 @@
 package io.ayte.utility.predicate.kit.unary.iterable.aggregate;
 
-import io.ayte.utility.predicate.kit.unary.iterable.aggregate.NoElementEquals;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,15 +14,15 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class NoElementEqualsTest {
+class NoneElementsEqualTest {
     @Test
     public void rejectsNullSubject() {
-        assertThrows(NullPointerException.class, () -> NoElementEquals.create(null).test(null));
+        assertThrows(NullPointerException.class, () -> NoneElementsEqual.create(null).test(null));
     }
 
     @Test
     public void acceptsNullReference() {
-        assertDoesNotThrow(() -> NoElementEquals.create(null));
+        assertDoesNotThrow(() -> NoneElementsEqual.create(null));
     }
 
     public static Object[][] dataProvider() {
@@ -37,7 +36,7 @@ class NoElementEqualsTest {
     @ParameterizedTest
     @MethodSource("dataProvider")
     public void satisfiesContract(Integer reference, List<Integer> subject, boolean expectation) {
-        val sut = NoElementEquals.<Integer>create(reference);
+        val sut = NoneElementsEqual.<Integer>create(reference);
         assertThat(sut.test(subject), equalTo(expectation));
     }
 }

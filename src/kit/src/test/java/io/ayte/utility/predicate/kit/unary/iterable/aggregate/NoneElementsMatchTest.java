@@ -1,6 +1,5 @@
 package io.ayte.utility.predicate.kit.unary.iterable.aggregate;
 
-import io.ayte.utility.predicate.kit.unary.iterable.aggregate.NoElementMatches;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantFalse;
 import lombok.val;
 import org.junit.jupiter.api.Test;
@@ -19,17 +18,17 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class NoElementMatchesTest {
+class NoneElementsMatchTest {
     @Test
     public void rejectsNullPredicate() {
-        assertThrows(NullPointerException.class, () -> NoElementMatches.create(null));
+        assertThrows(NullPointerException.class, () -> NoneElementsMatch.create(null));
     }
 
     @Test
     public void rejectsNullSubject() {
         assertThrows(
                 NullPointerException.class,
-                () -> NoElementMatches.create(ConstantFalse.create()).test(null)
+                () -> NoneElementsMatch.create(ConstantFalse.create()).test(null)
         );
     }
 
@@ -38,7 +37,7 @@ class NoElementMatchesTest {
     public void rejectsIfSingleElementCausesFalse() {
         val mock = mock(Predicate.class);
         when(mock.test(any())).thenReturn(false, false, true);
-        val sut = NoElementMatches.create(mock);
+        val sut = NoneElementsMatch.create(mock);
         assertFalse(sut.test(Arrays.asList(1, 2, 3, 4)));
         verify(mock, times(1)).test(1);
         verify(mock, times(1)).test(2);
@@ -48,7 +47,7 @@ class NoElementMatchesTest {
 
     @Test
     public void returnsTrueOnEmptySubject() {
-        val sut = NoElementMatches.create(ConstantFalse.create());
+        val sut = NoneElementsMatch.create(ConstantFalse.create());
         assertTrue(sut.test(Collections.emptySet()));
     }
 }

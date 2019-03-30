@@ -4,29 +4,30 @@ import io.ayte.utility.predicate.UnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.AugmentedUnaryPredicate;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.val;
 
-import java.util.Objects;
+import java.util.function.Predicate;
 
 @EqualsAndHashCode
 @ToString(includeFieldNames = false)
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class NoElementEquals<E> implements AugmentedUnaryPredicate<Iterable<E>> {
-    private final Object reference;
+public class NoneElementsMatch<E> implements AugmentedUnaryPredicate<Iterable<E>> {
+    private final Predicate<? super E> predicate;
 
     @Override
-    public boolean test(Iterable<E> subject) {
-        for (val element : subject) {
-            if (Objects.equals(reference, element)) {
+    public boolean test(@NonNull Iterable<E> subject) {
+        for (val item : subject) {
+            if (predicate.test(item)) {
                 return false;
             }
         }
         return true;
     }
 
-    public static <E> UnaryPredicate<Iterable<E>> create(Object reference) {
-        return new NoElementEquals<>(reference);
+    public static <E> UnaryPredicate<Iterable<E>> create(@NonNull Predicate<? super E> predicate) {
+        return new NoneElementsMatch<>(predicate);
     }
 }

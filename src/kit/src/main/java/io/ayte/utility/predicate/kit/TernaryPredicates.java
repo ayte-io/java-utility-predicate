@@ -34,37 +34,104 @@ public class TernaryPredicates {
         return ConstantFalse.create();
     }
 
+    /**
+     * @param <T1> Predicate argument 2 type.
+     * @param <T2> Predicate argument 3 type.
+     * @return Predicate that simply returns back first passed argument.
+     * This predicate is null-safe meaning passed null will result in
+     * {@code false} response, but not in NPE.
+     *
+     * @since 0.1.0
+     */
     public static <T1, T2> TernaryPredicate<Boolean, T1, T2> usingFirst() {
         return UsingFirst.create();
     }
 
+    /**
+     * @param <T1> Predicate argument 1 type.
+     * @param <T2> Predicate argument 3 type.
+     * @return Predicate that simply returns back second passed
+     * argument. This predicate is null-safe meaning passed null will
+     * result in {@code false} response, but not in NPE.
+     *
+     * @since 0.1.0
+     */
     public static <T1, T2> TernaryPredicate<T1, Boolean, T2> usingSecond() {
         return UsingSecond.create();
     }
 
+    /**
+     * @param <T1> Predicate argument 1 type.
+     * @param <T2> Predicate argument 2 type.
+     * @return Predicate that simply returns back third passed argument.
+     * This predicate is null-safe meaning passed null will result in
+     * {@code false} response, but not in NPE.
+     *
+     * @since 0.1.0
+     */
     public static <T1, T2> TernaryPredicate<T1, T2, Boolean> usingThird() {
         return UsingThird.create();
     }
 
-    public static <T1, T2, T3> TernaryPredicate<T1, T2, T3> all(
+    /**
+     * @param predicates Delegate predicates.
+     * @param <T1> Predicate argument 1 type.
+     * @param <T2> Predicate argument 2 type.
+     * @param <T3> Predicate argument 3 type.
+     * @return Predicate that returns true only if all passed predicates
+     * are satisfied.
+     *
+     * @since 0.1.0
+     */
+    public static <T1, T2, T3> TernaryPredicate<T1, T2, T3> allOf(
             @NonNull Iterable<TernaryPredicate<? super T1, ? super T2, ? super T3>> predicates
     ) {
         return AllOf.create(predicates);
     }
 
-    public static <T1, T2, T3> TernaryPredicate<T1, T2, T3> any(
+    /**
+     * @param predicates Delegate predicates.
+     * @param <T1> Predicate argument 1 type.
+     * @param <T2> Predicate argument 2 type.
+     * @param <T3> Predicate argument 3 type.
+     * @return Predicate that returns true if any of passed predicates
+     * is satisfied.
+     *
+     * @since 0.1.0
+     */
+    public static <T1, T2, T3> TernaryPredicate<T1, T2, T3> anyOf(
             @NonNull Iterable<TernaryPredicate<? super T1, ? super T2, ? super T3>> predicates
     ) {
         return AnyOf.create(predicates);
     }
 
-    public static <T1, T2, T3> TernaryPredicate<T1, T2, T3> none(
+    /**
+     * @param predicates Delegate predicates.
+     * @param <T1> Predicate argument 1 type.
+     * @param <T2> Predicate argument 2 type.
+     * @param <T3> Predicate argument 3 type.
+     * @return Predicate that returns true only if none of passed
+     * predicates are satisfied.
+     *
+     * @since 0.1.0
+     */
+    public static <T1, T2, T3> TernaryPredicate<T1, T2, T3> noneOf(
             @NonNull Iterable<TernaryPredicate<? super T1, ? super T2, ? super T3>> predicates
     ) {
         return NoneOf.create(predicates);
     }
 
-    public static <T1, T2, T3> TernaryPredicate<T1, T2, T3> one(
+    /**
+     * @param predicates Delegate predicates.
+     * @param <T1> Predicate argument 1 type.
+     * @param <T2> Predicate argument 2 type.
+     * @param <T3> Predicate argument 3 type.
+     * @return Predicate that returns true only if single one of passed
+     * predicates is satisfied.
+     *
+     * @since 0.1.0
+     */
+    public static <T1, T2, T3> TernaryPredicate<T1, T2, T3> oneOf(
             @NonNull Iterable<TernaryPredicate<? super T1, ? super T2, ? super T3>> predicates
     ) {
         return OneOf.create(predicates);
@@ -95,3 +162,4 @@ public class TernaryPredicates {
         return Xor.create(first, second);
     }
 }
+

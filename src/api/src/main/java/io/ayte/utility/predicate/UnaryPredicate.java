@@ -9,13 +9,17 @@ import java.util.function.Predicate;
  * user wants to, anyone else may continue using standard
  * {@link Predicate}.
  *
- * @param <T>
+ * @param <T> Argument type.
  *
  * @since 0.1.0
  */
 public interface UnaryPredicate<T> extends Predicate<T> {
     /**
      * Verifies that only one of two predicates is satisfied.
+     *
+     * @param other Second predicate to xor with
+     * @return Predicate that returns true only if one of predicates
+     * (this one or provided one) returns true.
      *
      * @since 0.1.0
      */

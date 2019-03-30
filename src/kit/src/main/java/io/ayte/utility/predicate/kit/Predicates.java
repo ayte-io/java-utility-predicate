@@ -4,7 +4,7 @@ import io.ayte.utility.predicate.UnaryPredicate;
 import io.ayte.utility.predicate.kit.unary.delegate.collection.AllOf;
 import io.ayte.utility.predicate.kit.unary.delegate.And;
 import io.ayte.utility.predicate.kit.unary.delegate.collection.AnyOf;
-import io.ayte.utility.predicate.kit.unary.delegate.Derivative;
+import io.ayte.utility.predicate.kit.unary.delegate.Computing;
 import io.ayte.utility.predicate.kit.unary.delegate.collection.NoneOf;
 import io.ayte.utility.predicate.kit.unary.delegate.Not;
 import io.ayte.utility.predicate.kit.unary.delegate.collection.OneOf;
@@ -20,8 +20,8 @@ import io.ayte.utility.predicate.kit.unary.iterable.aggregate.OneElementMatches;
 import io.ayte.utility.predicate.kit.unary.iterable.order.Decreases;
 import io.ayte.utility.predicate.kit.unary.iterable.ElementOf;
 import io.ayte.utility.predicate.kit.unary.iterable.order.Increases;
-import io.ayte.utility.predicate.kit.unary.iterable.aggregate.NoElementEquals;
-import io.ayte.utility.predicate.kit.unary.iterable.aggregate.NoElementMatches;
+import io.ayte.utility.predicate.kit.unary.iterable.aggregate.NoneElementsEqual;
+import io.ayte.utility.predicate.kit.unary.iterable.aggregate.NoneElementsMatch;
 import io.ayte.utility.predicate.kit.unary.iterable.aggregate.OneElementEquals;
 import io.ayte.utility.predicate.kit.unary.iterable.order.StrictlyDecreases;
 import io.ayte.utility.predicate.kit.unary.iterable.order.StrictlyIncreases;
@@ -55,26 +55,70 @@ import java.util.function.Predicate;
 @SuppressWarnings({"squid:S1452", "unused"})
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Predicates {
+    /**
+     * @param <T> Predicate argument type.
+     * @return Predicate that always returns true
+     *
+     * @since 0.1.0
+     */
     public static <T> UnaryPredicate<T> constantTrue() {
         return ConstantTrue.create();
     }
 
+    /**
+     * @param <T> Predicate argument type.
+     * @return Predicate that always returns false.
+     *
+     * @since 0.1.0
+     */
     public static <T> UnaryPredicate<T> constantFalse() {
         return ConstantFalse.create();
     }
 
+    /**
+     * @param value Value for predicate to return.
+     * @param <T> Predicate argument type.
+     * @return Predicate that always returns provided value.
+     *
+     * @since 0.1.0
+     */
     public static <T> UnaryPredicate<T> constant(boolean value) {
         return value ? constantTrue() : constantFalse();
     }
 
+    /**
+     * @return Predicate that passes value through. Null values are
+     * treated as {@code false}.
+     *
+     * @since 0.1.0
+     */
     public static UnaryPredicate<Boolean> identity() {
         return Identity.create();
     }
 
+    /**
+     * Wraps predicate (if necessary) so it can be used as
+     * {@link UnaryPredicate}.
+     *
+     * @param predicate Predicate to wrap.
+     * @param <T> Predicate argument type.
+     * @return Wrapped predicate (if it doesn't implement
+     * {@link UnaryPredicate}) or casted provided predicate (if it
+     * implements {@link UnaryPredicate}).
+     *
+     * @since 0.1.0
+     */
     public static <T> UnaryPredicate<T> wrap(@NonNull Predicate<T> predicate) {
         return Wrapper.create(predicate);
     }
 
+    /**
+     * @param predicate Predicate to inverse.
+     * @param <T> Predicate argument type.
+     * @return Predicate whose return value is inverse of passed one.
+     *
+     * @since 0.1.0
+     */
     public static <T> UnaryPredicate<T> not(@NonNull Predicate<T> predicate) {
         return Not.create(predicate);
     }
@@ -91,19 +135,19 @@ public class Predicates {
         return Xor.create(first, second);
     }
 
-    public static <T> UnaryPredicate<T> all(@NonNull Iterable<Predicate<? super T>> predicates) {
+    public static <T> UnaryPredicate<T> allOf(@NonNull Iterable<Predicate<? super T>> predicates) {
         return AllOf.create(predicates);
     }
 
-    public static <T> UnaryPredicate<T> any(@NonNull Iterable<Predicate<? super T>> predicates) {
+    public static <T> UnaryPredicate<T> anyOf(@NonNull Iterable<Predicate<? super T>> predicates) {
         return AnyOf.create(predicates);
     }
 
-    public static <T> UnaryPredicate<T> none(@NonNull Iterable<Predicate<? super T>> predicates) {
+    public static <T> UnaryPredicate<T> noneOf(@NonNull Iterable<Predicate<? super T>> predicates) {
         return NoneOf.create(predicates);
     }
 
-    public static <T> UnaryPredicate<T> one(@NonNull Iterable<Predicate<? super T>> predicates) {
+    public static <T> UnaryPredicate<T> oneOf(@NonNull Iterable<Predicate<? super T>> predicates) {
         return OneOf.create(predicates);
     }
 
@@ -135,7 +179,7 @@ public class Predicates {
         return GreaterThan.create(reference, comparator);
     }
 
-    public static <T extends Comparable<T>> UnaryPredicate<T> gt(@NonNull T reference) {
+    public static <T extends Comparable<T>> UnaryPredicate<T> gt(T reference) {
         return GreaterThan.create(reference);
     }
 
@@ -151,7 +195,7 @@ public class Predicates {
         return LessThan.create(reference, comparator);
     }
 
-    public static <T extends Comparable<T>> UnaryPredicate<T> lt(@NonNull T reference) {
+    public static <T extends Comparable<T>> UnaryPredicate<T> lt(T reference) {
         return LessThan.create(reference);
     }
 
@@ -159,10 +203,22 @@ public class Predicates {
         return LessThanOrEqualTo.create(reference, comparator);
     }
 
-    public static <T extends Comparable<T>> UnaryPredicate<T> lte(@NonNull T reference) {
+    public static <T extends Comparable<T>> UnaryPredicate<T> lte(T reference) {
         return LessThanOrEqualTo.create(reference);
     }
 
+    /**
+     * @param lower Range lower bound.
+     * @param upper Range upper bound.
+     * @param lowerInclusive Whether lower bound is inclusive.
+     * @param upperInclusive Whether upper bound is inclusive.
+     * @param comparator Comparator to execute range checks.
+     * @param <T> Argument type.
+     * @return Predicate that verifies that supplied value lies within
+     * specified range.
+     *
+     * @since 0.1.0
+     */
     public static <T> UnaryPredicate<T> within(
             T lower,
             T upper,
@@ -242,42 +298,65 @@ public class Predicates {
         return ElementOf.create(pool);
     }
 
-    public static <E> UnaryPredicate<Iterable<E>> allElementsEqual(Object reference) {
+    public static <E> UnaryPredicate<Iterable<E>> allEq(Object reference) {
         return AllElementsEqual.create(reference);
     }
 
-    public static <E> UnaryPredicate<Iterable<E>> allElementsMatch(@NonNull Predicate<? super E> predicate) {
+    public static <E> UnaryPredicate<Iterable<E>> allMatch(@NonNull Predicate<? super E> predicate) {
         return AllElementsMatch.create(predicate);
     }
 
-    public static <E> UnaryPredicate<Iterable<E>> anyElementEquals(Object reference) {
+    public static <E> UnaryPredicate<Iterable<E>> anyEq(Object reference) {
         return AnyElementEquals.create(reference);
     }
 
-    public static <E> UnaryPredicate<Iterable<E>> anyElementMatches(@NonNull Predicate<? super E> predicate) {
+    public static <E> UnaryPredicate<Iterable<E>> anyMatches(@NonNull Predicate<? super E> predicate) {
         return AnyElementMatches.create(predicate);
     }
 
-    public static <E> UnaryPredicate<Iterable<E>> noElementEquals(Object reference) {
-        return NoElementEquals.create(reference);
+    public static <E> UnaryPredicate<Iterable<E>> noneEq(Object reference) {
+        return NoneElementsEqual.create(reference);
     }
 
-    public static <E> UnaryPredicate<Iterable<E>> noElementMatches(@NonNull Predicate<? super E> predicate) {
-        return NoElementMatches.create(predicate);
+    public static <E> UnaryPredicate<Iterable<E>> noneMatch(@NonNull Predicate<? super E> predicate) {
+        return NoneElementsMatch.create(predicate);
     }
 
-    public static <E> UnaryPredicate<Iterable<E>> oneElementEquals(Object reference) {
+    public static <E> UnaryPredicate<Iterable<E>> oneEq(Object reference) {
         return OneElementEquals.create(reference);
     }
 
-    public static <E> UnaryPredicate<Iterable<E>> oneElementMatches(@NonNull Predicate<E> predicate) {
+    public static <E> UnaryPredicate<Iterable<E>> oneMatches(@NonNull Predicate<E> predicate) {
         return OneElementMatches.create(predicate);
     }
 
+    /**
+     * This method creates a special predicate that checks every two
+     * consequent elements of supplied iterable. Delegate predicate is
+     * fed with such pairs of elements, and resulting value is true only
+     * if delegate predicate has returned true for every pair of
+     * elements.
+     *
+     * @param predicate Delegate predicate.
+     * @param <E> Type of iterable elements.
+     * @return Predicate that returns true only if delegate predicate
+     * is satisfied for every pair of two consequent elements in
+     * iterable.
+     *
+     * @since 0.1.0
+     */
     public static <E> UnaryPredicate<Iterable<E>> comparing(@NonNull BiPredicate<? super E, ? super E> predicate) {
         return Comparing.create(predicate);
     }
 
+    /**
+     * @param comparator Comparator to perform element checks.
+     * @param <E> Type of iterable elements.
+     * @return Predicate that returns true only if every consequent
+     * element of iterable is greater than or equal to previous one.
+     *
+     * @since 0.1.0
+     */
     public static <E> UnaryPredicate<Iterable<E>> increases(@NonNull Comparator<? super E> comparator) {
         return Increases.create(comparator);
     }
@@ -286,6 +365,14 @@ public class Predicates {
         return Increases.create();
     }
 
+    /**
+     * @param comparator Comparator to perform element checks.
+     * @param <E> Type of iterable elements.
+     * @return Predicate that returns true only if every consequent
+     * element of iterable is greater than previous one.
+     *
+     * @since 0.1.0
+     */
     public static <E> UnaryPredicate<Iterable<E>> strictlyIncreases(@NonNull Comparator<? super E> comparator) {
         return StrictlyIncreases.create(comparator);
     }
@@ -294,6 +381,14 @@ public class Predicates {
         return StrictlyIncreases.create();
     }
 
+    /**
+     * @param comparator Comparator to perform element checks.
+     * @param <E> Type of iterable elements.
+     * @return Predicate that returns true only if every consequent
+     * element of iterable is smaller than or equal to previous one.
+     *
+     * @since 0.1.0
+     */
     public static <E> UnaryPredicate<Iterable<E>> decreases(@NonNull Comparator<? super E> comparator) {
         return Decreases.create(comparator);
     }
@@ -302,6 +397,14 @@ public class Predicates {
         return Decreases.create();
     }
 
+    /**
+     * @param comparator Comparator to perform element checks.
+     * @param <E> Type of iterable elements.
+     * @return Predicate that returns true only if every consequent
+     * element of iterable is smaller than previous one.
+     *
+     * @since 0.1.0
+     */
     public static <E> UnaryPredicate<Iterable<E>> strictlyDecreases(@NonNull Comparator<? super E> comparator) {
         return StrictlyDecreases.create(comparator);
     }
@@ -310,15 +413,18 @@ public class Predicates {
         return StrictlyDecreases.create();
     }
 
-    public static <T, S> UnaryPredicate<T> derivative(@NonNull Function<T, S> mapper, @NonNull Predicate<S> predicate) {
-        return Derivative.create(mapper, predicate);
-    }
-
-    public static <T, S> UnaryPredicate<T> mapping(@NonNull Function<T, S> mapper, @NonNull Predicate<S> predicate) {
-        return derivative(mapper, predicate);
-    }
-
-    public static <T, S> UnaryPredicate<T> extracting(@NonNull Function<T, S> extractor, @NonNull Predicate<S> predicate) {
-        return derivative(extractor, predicate);
+    /**
+     * @param mapper Function that performs conversion.
+     * @param predicate Delegate predicate that is responsible for
+     * generating output value.
+     * @param <T> Type of input value.
+     * @param <S> Type of delegate argument.
+     * @return Predicate that uses provided function to map input value
+     * to value for delegate predicate.
+     *
+     * @since 0.1.0
+     */
+    public static <T, S> UnaryPredicate<T> computing(@NonNull Function<T, S> mapper, @NonNull Predicate<S> predicate) {
+        return Computing.create(mapper, predicate);
     }
 }

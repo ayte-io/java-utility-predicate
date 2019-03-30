@@ -14,7 +14,11 @@ import java.util.function.BooleanSupplier;
  */
 public interface BinaryPredicate<T1, T2> extends BiPredicate<T1, T2> {
     /**
-     * Verifies that only one of two predicates is satisfied.
+     * @param other Other predicate.
+     * @return Predicate that returns true only if one of predicates
+     * (this one or provided one) returns true.
+     *
+     * @since 0.1.0
      */
     default BinaryPredicate<T1, T2> xor(BiPredicate<? super T1, ? super T2> other) {
         return (alpha, beta) -> test(alpha, beta) != other.test(alpha, beta);

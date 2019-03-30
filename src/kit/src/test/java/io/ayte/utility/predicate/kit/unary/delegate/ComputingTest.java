@@ -14,15 +14,15 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-class DerivativeTest {
+class ComputingTest {
     @Test
     public void rejectsNullMapper() {
-        assertThrows(NullPointerException.class, () -> Derivative.create(null, any -> true));
+        assertThrows(NullPointerException.class, () -> Computing.create(null, any -> true));
     }
 
     @Test
     public void rejectsNullDelegate() {
-        assertThrows(NullPointerException.class, () -> Derivative.create(x -> x, null));
+        assertThrows(NullPointerException.class, () -> Computing.create(x -> x, null));
     }
 
     @SuppressWarnings("unchecked")
@@ -32,7 +32,7 @@ class DerivativeTest {
         when(inversion.apply(any())).then(input -> !((Boolean) input.getArguments()[0]));
         val predicate = mock(Predicate.class);
         when(predicate.test(any())).then(input -> input.getArguments()[0]);
-        val sut = Derivative.create(inversion, predicate);
+        val sut = Computing.create(inversion, predicate);
         assertTrue(sut.test(false));
         verify(inversion, times(1)).apply(false);
         verify(predicate, times(1)).test(true);

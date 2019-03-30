@@ -40,19 +40,52 @@ public class BinaryPredicates {
     public static <T1, T2> BinaryPredicate<T1, T2> constantFalse() {
         return ConstantFalse.create();
     }
-    
+
+    /**
+     * @param <T> Second predicate argument type.
+     * @return A predicate that returns first passed argument. This
+     * predicate is null-safe, meaning that passing null as argument
+     * will produce {@code false} response instead of NPE.
+     *
+     * @since 0.1.0
+     */
     public static <T> BinaryPredicate<Boolean, T> usingFirst() {
         return UsingFirst.create();
     }
-    
+
+    /**
+     * @param <T> First predicate argument type.
+     * @return A predicate that returns second passed argument. This
+     * predicate is null-safe, meaning that passing null as argument
+     * will produce {@code false} response instead of NPE.
+     *
+     * @since 0.1.0
+     */
     public static <T> BinaryPredicate<T, Boolean> usingSecond() {
         return UsingSecond.create();
     }
 
+    /**
+     * @param predicate Delegate predicate
+     * @param <T1> First predicate argument type.
+     * @param <T2> Second predicate argument type.
+     * @return Wraps predicate in additional wrapper (if necessary) so
+     * returned predicate is of type {@link BinaryPredicate}.
+     *
+     * @since 0.1.0
+     */
     public static <T1, T2> BinaryPredicate<T1, T2> wrap(@NonNull BiPredicate<T1, T2> predicate) {
         return Wrapper.create(predicate);
     }
 
+    /**
+     * @param predicate Predicate to be inverted.
+     * @param <T1> First predicate argument type.
+     * @param <T2> Second predicate argument type.
+     * @return Predicate that returns inverted value.
+     *
+     * @since 0.1.0
+     */
     public static <T1, T2> BinaryPredicate<T1, T2> not(@NonNull BiPredicate<T1, T2> predicate) {
         return Not.create(predicate);
     }
@@ -78,50 +111,159 @@ public class BinaryPredicates {
         return Xor.create(first, second);
     }
 
-    public static <T1, T2> BinaryPredicate<T1, T2> all(@NonNull Iterable<BiPredicate<? super T1, ? super T2>> predicates) {
+    /**
+     * @param predicates Delegate predicates.
+     * @param <T1> First predicate argument type.
+     * @param <T2> Second predicate argument type.
+     * @return Predicate that returns true if all of passed predicates
+     * are satisfied against tested values.
+     *
+     * @since 0.1.0
+     */
+    public static <T1, T2> BinaryPredicate<T1, T2> allOf(
+            @NonNull Iterable<BiPredicate<? super T1, ? super T2>> predicates
+    ) {
         return AllOf.create(predicates);
     }
 
-    public static <T1, T2> BinaryPredicate<T1, T2> any(@NonNull Iterable<BiPredicate<? super T1, ? super T2>> predicates) {
+    /**
+     * @param predicates Delegate predicates.
+     * @param <T1> First predicate argument type.
+     * @param <T2> Second predicate argument type.
+     * @return Predicate that returns true if any of passed predicates
+     * is satisfied against tested values.
+     *
+     * @since 0.1.0
+     */
+    public static <T1, T2> BinaryPredicate<T1, T2> anyOf(
+            @NonNull Iterable<BiPredicate<? super T1, ? super T2>> predicates
+    ) {
         return AnyOf.create(predicates);
     }
 
-    public static <T1, T2> BinaryPredicate<T1, T2> none(@NonNull Iterable<BiPredicate<? super T1, ? super T2>> predicates) {
+    /**
+     * @param predicates Delegate predicates.
+     * @param <T1> First predicate argument type.
+     * @param <T2> Second predicate argument type.
+     * @return Predicate that returns true only if none of delegate
+     * predicates are satisfied against tested values.
+     *
+     * @since 0.1.0
+     */
+    public static <T1, T2> BinaryPredicate<T1, T2> noneOf(
+            @NonNull Iterable<BiPredicate<? super T1, ? super T2>> predicates
+    ) {
         return NoneOf.create(predicates);
     }
 
-    public static <T1, T2> BinaryPredicate<T1, T2> one(@NonNull Iterable<BiPredicate<? super T1, ? super T2>> predicates) {
+    /**
+     * @param predicates Delegate predicates.
+     * @param <T1> First predicate argument type.
+     * @param <T2> Second predicate argument type.
+     * @return Predicate that returns true only if single delegate
+     * predicate is satisfied against tested values.
+     *
+     * @since 0.1.0
+     */
+    public static <T1, T2> BinaryPredicate<T1, T2> oneOf(
+            @NonNull Iterable<BiPredicate<? super T1, ? super T2>> predicates
+    ) {
         return OneOf.create(predicates);
     }
 
+    /**
+     * @param comparator Comparator to compare values.
+     * @param <T> Argument type.
+     * @return Predicate that returns true only if second argument is
+     * greater than or equal to first one.
+     *
+     * @since 0.1.0
+     */
     public static <T> BinaryPredicate<T, T> inAscendingOrder(@NonNull Comparator<T> comparator) {
         return InAscendingOrder.create(comparator);
     }
 
+    /**
+     * @see #inAscendingOrder(Comparator)
+     * @param <T> Argument type.
+     * @return Predicate that returns true only if second argument is
+     * greater than or equal to first one.
+     *
+     * @since 0.1.0
+     */
     public static <T extends Comparable<T>> BinaryPredicate<T, T> inAscendingOrder() {
         return InAscendingOrder.create();
     }
 
+    /**
+     * @param comparator Comparator to compare values.
+     * @param <T> Argument type.
+     * @return Predicate that returns true only if second argument is
+     * greater than first one.
+     *
+     * @since 0.1.0
+     */
     public static <T> BinaryPredicate<T, T> inStrictAscendingOrder(@NonNull Comparator<T> comparator) {
         return InStrictAscendingOrder.create(comparator);
     }
 
+    /**
+     * @see #inStrictAscendingOrder(Comparator)
+     * @param <T> Argument type.
+     * @return Predicate that returns true only if second argument is
+     * greater than first one.
+     *
+     * @since 0.1.0
+     */
     public static <T extends Comparable<T>> BinaryPredicate<T, T> inStrictAscendingOrder() {
         return InStrictAscendingOrder.create();
     }
 
+    /**
+     * @param comparator Comparator to compare values.
+     * @param <T> Argument type.
+     * @return Predicate that returns true only if second argument is
+     * smaller than or equal to first one.
+     *
+     * @since 0.1.0
+     */
     public static <T> BinaryPredicate<T, T> inDescendingOrder(@NonNull Comparator<T> comparator) {
         return InDescendingOrder.create(comparator);
     }
 
+    /**
+     * @see #inDescendingOrder(Comparator)
+     * @param <T> Argument type.
+     * @return Predicate that returns true only if second argument is
+     * smaller than or equal to first one.
+     *
+     * @since 0.1.0
+     */
     public static <T extends Comparable<T>> BinaryPredicate<T, T> inDescendingOrder() {
         return InDescendingOrder.create();
     }
 
+
+    /**
+     * @param comparator Comparator to compare values.
+     * @param <T> Argument type.
+     * @return Predicate that returns true only if second argument is
+     * smaller than first one.
+     *
+     * @since 0.1.0
+     */
     public static <T> BinaryPredicate<T, T> inStrictDescendingOrder(@NonNull Comparator<T> comparator) {
         return InStrictDescendingOrder.create(comparator);
     }
 
+    /**
+     * @see #inStrictDescendingOrder(Comparator)
+     * @param <T> Argument type.
+     * @return Predicate that returns true only if second argument is
+     * smaller than first one.
+     *
+     * @since 0.1.0
+     */
     public static <T extends Comparable<T>> BinaryPredicate<T, T> inStrictDescendingOrder() {
         return InStrictDescendingOrder.create();
     }

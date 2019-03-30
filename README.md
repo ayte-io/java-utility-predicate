@@ -74,7 +74,7 @@ doesn't inherit anything but follows same conventions.
 to use library at full power. 
 
 It is not recommended to call classes factory methods directly since 
-their signature may change without warning.
+their signature and location may change without warning.
 
 ## Licensing
 

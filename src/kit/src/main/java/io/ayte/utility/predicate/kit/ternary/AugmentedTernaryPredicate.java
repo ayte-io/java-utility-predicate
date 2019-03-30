@@ -6,13 +6,6 @@ import io.ayte.utility.predicate.kit.ternary.delegate.Not;
 import io.ayte.utility.predicate.kit.ternary.delegate.Or;
 import io.ayte.utility.predicate.kit.ternary.delegate.Xor;
 
-/**
- * @param <T1>
- * @param <T2>
- * @param <T3>
- *
- * @since 0.1.0
- */
 public interface AugmentedTernaryPredicate<T1, T2, T3> extends TernaryPredicate<T1, T2, T3> {
     @Override
     default TernaryPredicate<T1, T2, T3> and(TernaryPredicate<? super T1, ? super T2, ? super T3> other) {

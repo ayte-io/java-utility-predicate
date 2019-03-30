@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 @EqualsAndHashCode
 @ToString
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class Derivative<T, S> implements AugmentedUnaryPredicate<T> {
+public class Computing<T, S> implements AugmentedUnaryPredicate<T> {
     private final Function<T, S> mapper;
     private final Predicate<S> delegate;
 
@@ -22,7 +22,7 @@ public class Derivative<T, S> implements AugmentedUnaryPredicate<T> {
         return delegate.test(mapper.apply(subject));
     }
 
-    public static <T, S> Derivative<T, S> create(@NonNull Function<T, S> mapper, @NonNull Predicate<S> predicate) {
-        return new Derivative<>(mapper, predicate);
+    public static <T, S> Computing<T, S> create(@NonNull Function<T, S> mapper, @NonNull Predicate<S> predicate) {
+        return new Computing<>(mapper, predicate);
     }
 }
