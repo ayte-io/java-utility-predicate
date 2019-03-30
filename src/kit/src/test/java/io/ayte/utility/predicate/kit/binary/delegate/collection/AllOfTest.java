@@ -1,6 +1,5 @@
 package io.ayte.utility.predicate.kit.binary.delegate.collection;
 
-import io.ayte.utility.predicate.kit.binary.delegate.collection.AllOf;
 import io.ayte.utility.predicate.kit.binary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.binary.standard.ConstantTrue;
 import io.ayte.utility.predicate.kit.binary.standard.UsingFirst;
@@ -76,5 +75,14 @@ class AllOfTest {
         val delegate = UsingFirst.create();
         val sut = AllOf.create(Collections.singleton(delegate));
         assertThat(sut, is(delegate));
+    }
+
+    @Test
+    public void unwrapsNestedAllOf() {
+        val delegate = mock(BiPredicate.class);
+        val nested = AllOf.create(Arrays.asList(delegate, delegate));
+        val sut = AllOf.create(Arrays.asList(delegate, nested));
+        assertThat(sut, instanceOf(AllOf.class));
+        assertThat(((AllOf) sut).getDelegates(), equalTo(Arrays.asList(delegate, delegate, delegate)));
     }
 }

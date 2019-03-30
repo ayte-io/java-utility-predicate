@@ -49,10 +49,6 @@ public class OneOf<T1, T2> implements AugmentedBinaryPredicate<T1, T2> {
     ) {
         Predicate<BiPredicate<T1, T2>> validator = ConstantTrue::notInstanceOf;
         return new DelegateCollectionFactory<BiPredicate<T1, T2>, BinaryPredicate<T1, T2>>()
-                .withUnwrapper(
-                        predicate -> predicate instanceof OneOf,
-                        predicate -> ((OneOf<T1, T2>) predicate).getDelegates()
-                )
                 .withValidator(validator)
                 .withCollector((delegates, violations) -> {
                     if (violations.getOrDefault(validator, 0) > 1) {

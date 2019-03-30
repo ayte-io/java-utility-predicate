@@ -1,8 +1,9 @@
 package io.ayte.utility.predicate.kit.binary.delegate.collection;
 
-import io.ayte.utility.predicate.kit.binary.delegate.collection.NoneOf;
+import io.ayte.utility.predicate.kit.binary.delegate.Not;
 import io.ayte.utility.predicate.kit.binary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.binary.standard.ConstantTrue;
+import io.ayte.utility.predicate.kit.binary.standard.UsingFirst;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 
@@ -21,13 +22,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("unchecked")
 class NoneOfTest {
     @Test
     public void rejectsNullDelegates() {
         assertThrows(NullPointerException.class, () -> NoneOf.create(null));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void returnsTrueIfAllDelegatesReturnFalse() {
         val delegate = mock(BiPredicate.class);
@@ -37,7 +38,6 @@ class NoneOfTest {
         verify(delegate, times(3)).test(null, null);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void returnsFalseIfAnyDelegateReturnsTrue() {
         val delegate = mock(BiPredicate.class);
@@ -66,5 +66,21 @@ class NoneOfTest {
     public void createsConstantTrueOnEmptyDelegates() {
         val sut = NoneOf.create(Collections.emptyList());
         assertThat(sut, instanceOf(ConstantTrue.class));
+    }
+
+    @Test
+    public void inversesSingleDelegate() {
+        val delegate = UsingFirst.create();
+        val sut = NoneOf.create(Collections.singleton(delegate));
+        assertThat(sut, equalTo(Not.create(delegate)));
+    }
+
+    @Test
+    public void unwrapsNestedNoneOf() {
+        val delegate = mock(BiPredicate.class);
+        val nested = NoneOf.create(Arrays.asList(delegate, delegate));
+        val sut = NoneOf.create(Arrays.asList(delegate, nested));
+        assertThat(sut, instanceOf(NoneOf.class));
+        assertThat(((NoneOf) sut).getDelegates(), equalTo(Arrays.asList(delegate, delegate, delegate)));
     }
 }

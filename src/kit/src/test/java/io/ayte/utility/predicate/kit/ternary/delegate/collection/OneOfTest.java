@@ -1,7 +1,6 @@
 package io.ayte.utility.predicate.kit.ternary.delegate.collection;
 
 import io.ayte.utility.predicate.TernaryPredicate;
-import io.ayte.utility.predicate.kit.ternary.delegate.collection.OneOf;
 import io.ayte.utility.predicate.kit.ternary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.ternary.standard.ConstantTrue;
 import io.ayte.utility.predicate.kit.ternary.standard.UsingFirst;
@@ -84,14 +83,5 @@ class OneOfTest {
         val delegate = mock(TernaryPredicate.class);
         val sut = OneOf.create(Arrays.asList(ConstantTrue.create(), ConstantTrue.create(), delegate));
         assertThat(sut, instanceOf(ConstantFalse.class));
-    }
-
-    @Test
-    public void unwrapsNestedOneOf() {
-        val delegate = mock(TernaryPredicate.class);
-        val nested = OneOf.create(Arrays.asList(delegate, delegate));
-        val sut = OneOf.create(Arrays.asList(delegate, nested));
-        assertThat(sut, instanceOf(OneOf.class));
-        assertThat(((OneOf) sut).getDelegates(), equalTo(Arrays.asList(delegate, delegate, delegate)));
     }
 }

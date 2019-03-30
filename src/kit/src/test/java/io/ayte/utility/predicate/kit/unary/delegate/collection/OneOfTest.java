@@ -1,8 +1,8 @@
 package io.ayte.utility.predicate.kit.unary.delegate.collection;
 
-import io.ayte.utility.predicate.kit.unary.delegate.collection.OneOf;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantTrue;
+import io.ayte.utility.predicate.kit.unary.standard.Identity;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +13,7 @@ import java.util.function.Predicate;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -59,5 +60,12 @@ class OneOfTest {
     public void shortcutsOnTwoOrMoreConstantTrues() {
         val sut = OneOf.create(Arrays.asList(ConstantTrue.create(), ConstantTrue.create()));
         assertThat(sut, instanceOf(ConstantFalse.class));
+    }
+
+    @Test
+    public void wrapsSingleDelegate() {
+        val delegate = Identity.create();
+        val sut = OneOf.create(Collections.singleton(delegate));
+        assertThat(sut, is(delegate));
     }
 }

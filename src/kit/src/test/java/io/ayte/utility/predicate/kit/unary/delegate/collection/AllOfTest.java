@@ -1,6 +1,5 @@
 package io.ayte.utility.predicate.kit.unary.delegate.collection;
 
-import io.ayte.utility.predicate.kit.unary.delegate.collection.AllOf;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.unary.standard.ConstantTrue;
 import io.ayte.utility.predicate.kit.unary.standard.Identity;
@@ -14,13 +13,14 @@ import java.util.function.Predicate;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AllOfTest {
     @Test
-    public void failsIfAnyOfDelegatesFail () {
+    public void failsIfAnyOfDelegatesFail() {
         val sut = AllOf.create(Arrays.asList(any -> true, any -> false));
         assertFalse(sut.test(null));
     }
@@ -29,12 +29,6 @@ class AllOfTest {
     public void returnsTrueIfAllDelegatesSucceed() {
         val sut = AllOf.create(Arrays.asList(any -> true, any -> true));
         assertTrue(sut.test(null));
-    }
-
-    @Test
-    public void returnsConstantFalseIfAnyDelegateIsConstantFalse() {
-        val sut = AllOf.create(Arrays.asList(any -> true, ConstantFalse.create()));
-        assertThat(sut, instanceOf(ConstantFalse.class));
     }
 
     @Test
@@ -69,5 +63,12 @@ class AllOfTest {
         val sut = AllOf.create(Arrays.asList(delegate, delegate, ConstantTrue.<Boolean>create()));
         assertThat(sut, instanceOf(AllOf.class));
         assertThat(((AllOf) sut).getDelegates(), equalTo(Arrays.asList(delegate, delegate)));
+    }
+
+    @Test
+    public void passesSingleDelegateThrough() {
+        val delegate = Identity.create();
+        val sut = AllOf.create(Collections.singleton(delegate));
+        assertThat(sut, is(delegate));
     }
 }

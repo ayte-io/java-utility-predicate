@@ -1,7 +1,7 @@
 package io.ayte.utility.predicate.kit.binary.delegate.collection;
 
-import io.ayte.utility.predicate.kit.binary.delegate.collection.AnyOf;
 import io.ayte.utility.predicate.kit.binary.standard.ConstantFalse;
+import io.ayte.utility.predicate.kit.binary.standard.ConstantTrue;
 import io.ayte.utility.predicate.kit.binary.standard.UsingFirst;
 import lombok.val;
 import org.junit.jupiter.api.Test;
@@ -66,5 +66,20 @@ class AnyOfTest {
         val delegate = UsingFirst.create();
         val sut = AnyOf.create(Collections.singleton(delegate));
         assertThat(sut, is(delegate));
+    }
+
+    @Test
+    public void shortcutsOnConstantTrue() {
+        val sut = AnyOf.create(Arrays.asList(ConstantTrue.create(), (a, b) -> false));
+        assertThat(sut, instanceOf(ConstantTrue.class));
+    }
+
+    @Test
+    public void unwrapsNestedAnyOf() {
+        val delegate = mock(BiPredicate.class);
+        val nested = AnyOf.create(Arrays.asList(delegate, delegate));
+        val sut = AnyOf.create(Arrays.asList(delegate, nested));
+        assertThat(sut, instanceOf(AnyOf.class));
+        assertThat(((AnyOf) sut).getDelegates(), equalTo(Arrays.asList(delegate, delegate, delegate)));
     }
 }

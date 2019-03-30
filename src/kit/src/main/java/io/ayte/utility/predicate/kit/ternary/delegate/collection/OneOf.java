@@ -56,10 +56,6 @@ public class OneOf<T1, T2, T3> implements AugmentedTernaryPredicate<T1, T2, T3> 
                     }
                     return ConstantFalse.create();
                 })
-                .withUnwrapper(
-                        predicate -> predicate instanceof OneOf,
-                        predicate -> ((OneOf<T1, T2, T3>) predicate).getDelegates()
-                )
                 .withWrapper(Function.identity())
                 .build((Iterable<TernaryPredicate<T1, T2, T3>>) (Iterable) predicates);
     }

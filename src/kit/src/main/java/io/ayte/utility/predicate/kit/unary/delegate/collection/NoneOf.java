@@ -23,6 +23,10 @@ import java.util.function.Predicate;
 public class NoneOf<T> implements AugmentedUnaryPredicate<T> {
     private final List<Predicate<T>> delegates;
 
+    public List<Predicate<T>> getDelegates() {
+        return Collections.unmodifiableList(delegates);
+    }
+
     @Override
     public boolean test(T subject) {
         for (val predicate : delegates) {
@@ -31,10 +35,6 @@ public class NoneOf<T> implements AugmentedUnaryPredicate<T> {
             }
         }
         return true;
-    }
-
-    public List<Predicate<T>> getDelegates() {
-        return Collections.unmodifiableList(delegates);
     }
 
     @SuppressWarnings({"unchecked", "Duplicates"})

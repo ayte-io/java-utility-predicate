@@ -1,6 +1,7 @@
 package io.ayte.utility.predicate.kit.unary.iterable.aggregate;
 
 import io.ayte.utility.predicate.kit.unary.standard.ConstantFalse;
+import io.ayte.utility.predicate.kit.unary.standard.ConstantTrue;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 
@@ -8,6 +9,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.function.Predicate;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,7 +31,7 @@ class NoneElementsMatchTest {
     public void rejectsNullSubject() {
         assertThrows(
                 NullPointerException.class,
-                () -> NoneElementsMatch.create(ConstantFalse.create()).test(null)
+                () -> NoneElementsMatch.create(any -> false).test(null)
         );
     }
 
@@ -47,7 +50,19 @@ class NoneElementsMatchTest {
 
     @Test
     public void returnsTrueOnEmptySubject() {
-        val sut = NoneElementsMatch.create(ConstantFalse.create());
+        val sut = NoneElementsMatch.create(any -> false);
         assertTrue(sut.test(Collections.emptySet()));
+    }
+
+    @Test
+    public void shortcutsOnConstantTrue() {
+        val sut = NoneElementsMatch.create(ConstantTrue.create());
+        assertThat(sut, instanceOf(ConstantFalse.class));
+    }
+
+    @Test
+    public void shortcutsOnConstantFalse() {
+        val sut = NoneElementsMatch.create(ConstantFalse.create());
+        assertThat(sut, instanceOf(ConstantTrue.class));
     }
 }

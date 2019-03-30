@@ -1,6 +1,5 @@
 package io.ayte.utility.predicate.kit.binary.delegate.collection;
 
-import io.ayte.utility.predicate.kit.binary.delegate.collection.OneOf;
 import io.ayte.utility.predicate.kit.binary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.binary.standard.ConstantTrue;
 import io.ayte.utility.predicate.kit.binary.standard.UsingFirst;
@@ -75,5 +74,11 @@ class OneOfTest {
     public void passesSingleDelegateThrough() {
         val delegate = UsingFirst.create();
         assertThat(OneOf.create(Collections.singleton(delegate)), is(delegate));
+    }
+
+    @Test
+    public void returnsConstantFalseOnEmptyDelegates() {
+        val sut = OneOf.create(Collections.emptyList());
+        assertThat(sut, instanceOf(ConstantFalse.class));
     }
 }
