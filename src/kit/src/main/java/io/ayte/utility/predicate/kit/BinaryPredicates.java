@@ -1,6 +1,10 @@
 package io.ayte.utility.predicate.kit;
 
 import io.ayte.utility.predicate.BinaryPredicate;
+import io.ayte.utility.predicate.UnaryPredicate;
+import io.ayte.utility.predicate.kit.binary.capture.AllArgumentsCapturedBinaryPredicate;
+import io.ayte.utility.predicate.kit.binary.capture.AlphaCapturedBinaryPredicate;
+import io.ayte.utility.predicate.kit.binary.capture.BetaCapturedBinaryPredicate;
 import io.ayte.utility.predicate.kit.binary.delegate.Wrapper;
 import io.ayte.utility.predicate.kit.binary.delegate.Xor;
 import io.ayte.utility.predicate.kit.binary.delegate.collection.OneOf;
@@ -24,6 +28,7 @@ import lombok.NonNull;
 
 import java.util.Comparator;
 import java.util.function.BiPredicate;
+import java.util.function.BooleanSupplier;
 
 // CLOVER:OFF
 
@@ -266,5 +271,17 @@ public class BinaryPredicates {
      */
     public static <T extends Comparable<T>> BinaryPredicate<T, T> inStrictDescendingOrder() {
         return InStrictDescendingOrder.create();
+    }
+
+    public <T1, T2> UnaryPredicate<T2> captureAlpha(@NonNull BiPredicate<T1, T2> predicate, T1 alpha) {
+        return AlphaCapturedBinaryPredicate.create(predicate, alpha);
+    }
+
+    public <T1, T2> UnaryPredicate<T1> captureBeta(@NonNull BiPredicate<T1, T2> predicate, T2 beta) {
+        return BetaCapturedBinaryPredicate.create(predicate, beta);
+    }
+
+    public <T1, T2> BooleanSupplier capture(@NonNull BiPredicate<T1, T2> predicate, T1 alpha, T2 beta) {
+        return AllArgumentsCapturedBinaryPredicate.create(predicate, alpha, beta);
     }
 }

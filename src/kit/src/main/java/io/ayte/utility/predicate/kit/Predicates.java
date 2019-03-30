@@ -1,6 +1,7 @@
 package io.ayte.utility.predicate.kit;
 
 import io.ayte.utility.predicate.UnaryPredicate;
+import io.ayte.utility.predicate.kit.unary.capture.ArgumentCapturedPredicate;
 import io.ayte.utility.predicate.kit.unary.delegate.collection.AllOf;
 import io.ayte.utility.predicate.kit.unary.delegate.And;
 import io.ayte.utility.predicate.kit.unary.delegate.collection.AnyOf;
@@ -47,6 +48,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.function.BiPredicate;
+import java.util.function.BooleanSupplier;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -426,5 +428,9 @@ public class Predicates {
      */
     public static <T, S> UnaryPredicate<T> computing(@NonNull Function<T, S> mapper, @NonNull Predicate<S> predicate) {
         return Computing.create(mapper, predicate);
+    }
+
+    public static <T> BooleanSupplier capture(@NonNull Predicate<T> predicate, T argument) {
+        return ArgumentCapturedPredicate.create(predicate, argument);
     }
 }

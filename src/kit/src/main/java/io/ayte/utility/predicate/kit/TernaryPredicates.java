@@ -1,6 +1,13 @@
 package io.ayte.utility.predicate.kit;
 
+import io.ayte.utility.predicate.BinaryPredicate;
 import io.ayte.utility.predicate.TernaryPredicate;
+import io.ayte.utility.predicate.UnaryPredicate;
+import io.ayte.utility.predicate.kit.ternary.capture.AllArgumentsCapturedTernaryPredicate;
+import io.ayte.utility.predicate.kit.ternary.capture.AlphaBetaCapturedTernaryPredicate;
+import io.ayte.utility.predicate.kit.ternary.capture.AlphaCapturedTernaryPredicate;
+import io.ayte.utility.predicate.kit.ternary.capture.BetaCapturedTernaryPredicate;
+import io.ayte.utility.predicate.kit.ternary.capture.GammaCapturedTernaryPredicate;
 import io.ayte.utility.predicate.kit.ternary.standard.ConstantFalse;
 import io.ayte.utility.predicate.kit.ternary.standard.ConstantTrue;
 import io.ayte.utility.predicate.kit.ternary.delegate.collection.AllOf;
@@ -17,6 +24,8 @@ import io.ayte.utility.predicate.kit.ternary.standard.UsingThird;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+
+import java.util.function.BooleanSupplier;
 
 // CLOVER:OFF
 
@@ -161,5 +170,49 @@ public class TernaryPredicates {
     ) {
         return Xor.create(first, second);
     }
-}
 
+    public static <T1, T2, T3> BinaryPredicate<T2, T3> captureAlpha(
+            @NonNull TernaryPredicate<T1, T2, T3> predicate,
+            T1 alpha
+    ) {
+        return AlphaCapturedTernaryPredicate.create(predicate, alpha);
+    }
+
+    public static <T1, T2, T3> BinaryPredicate<T1, T3> captureBeta(
+            @NonNull TernaryPredicate<T1, T2, T3> predicate,
+            T2 beta
+    ) {
+        return BetaCapturedTernaryPredicate.create(predicate, beta);
+    }
+
+    public static <T1, T2, T3> BinaryPredicate<T1, T2> captureGamma(
+            @NonNull TernaryPredicate<T1, T2, T3> predicate,
+            T3 gamma
+    ) {
+        return GammaCapturedTernaryPredicate.create(predicate, gamma);
+    }
+
+    public static <T1, T2, T3> BinaryPredicate<T2, T3> capture(
+            @NonNull TernaryPredicate<T1, T2, T3> predicate,
+            T1 alpha
+    ) {
+        return captureAlpha(predicate, alpha);
+    }
+
+    public static <T1, T2, T3> UnaryPredicate<T3> capture(
+            @NonNull TernaryPredicate<T1, T2, T3> predicate,
+            T1 alpha,
+            T2 beta
+    ) {
+        return AlphaBetaCapturedTernaryPredicate.create(predicate, alpha, beta);
+    }
+
+    public static <T1, T2, T3> BooleanSupplier capture(
+            @NonNull TernaryPredicate<T1, T2, T3> predicate,
+            T1 alpha,
+            T2 beta,
+            T3 gamma
+    ) {
+        return AllArgumentsCapturedTernaryPredicate.create(predicate, alpha, beta, gamma);
+    }
+}

@@ -10,9 +10,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class NotTest {
+    @Test
+    public void rejectsNullDelegate() {
+        assertThrows(NullPointerException.class, () -> Not.create(null));
+    }
+
     @Test
     public void satisfiesContract() {
         assertFalse(Not.create((a, b, c) -> true).test(null, null, null));

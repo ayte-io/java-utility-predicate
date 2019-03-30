@@ -55,6 +55,12 @@ Or, with static imports:
 .filter(xor(gte(3), keyOf(map)))
 ```
 
+Or, speaking about xor operation:
+
+```
+.filter(gte(3).xor(keyOf(map)))
+```
+
 All those operations return named classes (`AllMatch`, `GreaterThan`,
 `KeyOf`), which will help you debug the issues. Developer friendliness 
 is a top priority here, so this library tries to simplify things when 
