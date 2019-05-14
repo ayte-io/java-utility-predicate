@@ -3,7 +3,7 @@
 ![CircleCI branch](https://img.shields.io/circleci/project/github/ayte-io/java-utility-predicate/release/0.1.svg?style=flat-square)
 ![Maven Central](https://img.shields.io/maven-central/v/io.ayte.utility.predicate/parent.svg?style=flat-square)
 
-Tired of `.filter(collection -> collection.stream.anyMatch(CONSTANT::equals))`?
+Tired of `.filter(collection -> collection.stream().anyMatch(CONSTANT::equals))`?
 We're here.
 
 ## Coordinates
@@ -72,8 +72,9 @@ of course we try to keep naming concise.
 
 `api` jar provides end user with three interfaces: `UnaryPredicate`,
 `BinaryPredicate` and `TernaryPredicate`. First two simply extend
-`Predicate` and `BiPredicate`, adding `.xor()` method, and third one
-doesn't inherit anything but follows same conventions.
+`Predicate` and `BiPredicate`, adding `.xor()` method and augmenting 
+standard methods (`and(), or(), negate()`) with named classes, and 
+third one doesn't inherit anything but follows same conventions.
 
 `kit` jar exposes `Predicates`, `BinaryPredicates` and 
 `TernaryPredicates` static factory classes, which should be sufficient
