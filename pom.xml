@@ -11,7 +11,7 @@
 
     <groupId>io.ayte.utility.predicate</groupId>
     <artifactId>parent</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
     <name>Ayte :: Utility :: Predicate</name>
     <description>Set of unary, binary and ternary predicate implementations for ease of development and debugging</description>
     <url>https://github.com/ayte-io/java-utility-predicate</url>
