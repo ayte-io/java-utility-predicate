@@ -1,7 +1,12 @@
 # Ayte :: Utility :: Predicate
 
-![CircleCI branch](https://img.shields.io/circleci/project/github/ayte-io/java-utility-predicate/release/0.1.svg?style=flat-square)
-![Maven Central](https://img.shields.io/maven-central/v/io.ayte.utility.predicate/parent.svg?style=flat-square)
+[![CircleCI](https://img.shields.io/circleci/project/github/ayte-io/java-utility-predicate.svg?style=flat-square)](https://circleci.com/gh/ayte-io/java-utility-predicate)
+[![Maven Central](https://img.shields.io/maven-central/v/io.ayte.utility.predicate/parent.svg?style=flat-square)](https://mvnrepository.com/artifact/io.ayte.utility.predicate)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/ayte-io/java-utility-predicate.svg?style=flat-square)](https://codeclimate.com/github/ayte-io/java-utility-predicate)
+[![Sonar Tech Debt](https://img.shields.io/sonar/https/sonarcloud.io/io.ayte.utility.predicate:parent/tech_debt.svg?style=flat-square)](https://sonarcloud.io/dashboard?id=io.ayte.utility.predicate%3Aparent)
+
+[![MIT License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE-MIT)
+[![UPL-1.0 License](https://img.shields.io/badge/license-UPL&dash;1.0-brightgreen.svg?style=flat-square)](LICENSE-UPL-1.0)
 
 Tired of `.filter(collection -> collection.stream().anyMatch(CONSTANT::equals))`?
 We're here.
@@ -9,13 +14,14 @@ We're here.
 ## Coordinates
 
 This project is separated into two packages, 
-`io.ayte.utility.predicate:api` with interfaces and 
-`io.ayte.utility.predicate:kit` with actual implementations. Contents
-are both Java 8-compatible and exposed as 
-`io.ayte.utility.predicate.api` / `io.ayte.utility.predicate.kit` java
-9+ modules.
+[`io.ayte.utility.predicate:api`](https://mvnrepository.com/artifact/io.ayte.utility.predicate/api) 
+with interfaces and 
+[`io.ayte.utility.predicate:kit`](https://mvnrepository.com/artifact/io.ayte.utility.predicate/kit) 
+with actual implementations. Contents are both Java 8-compatible and 
+exposed as  `io.ayte.utility.predicate.api` / 
+`io.ayte.utility.predicate.kit` java 9+ modules.
 
-Check [Utility](https://github.com/ayte-io/java-utility) for better 
+Check [utility repository](https://github.com/ayte-io/java-utility) for better 
 explanation of internal organization.
 
 ## What's all the fuzz about?
@@ -89,4 +95,4 @@ MIT / UPL-1.0
 
 Ayte Labs, 2019
 
-Do what comes natural
+Do what comes natural.
